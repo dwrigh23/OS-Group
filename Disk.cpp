@@ -28,7 +28,7 @@ void Disk::get_data(){
 			else if (line.at(3) == 'D'){
 				line.erase(0, 7);
 				std::istringstream iss(line);
-				iss >> inBuff >> std::hex >> outBuff >> std::hex >> tempBuff;
+				iss >> std::hex >> inBuff >> std::hex >> outBuff >> std::hex >> tempBuff;
 				testDisk.pcbTemp.push_back(inBuff);
 				testDisk.pcbTemp.push_back(outBuff);
 				testDisk.pcbTemp.push_back(tempBuff);
