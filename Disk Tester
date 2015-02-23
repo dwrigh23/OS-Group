@@ -1,0 +1,15 @@
+#include "disk.h"
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+int main(){
+	Disk testDisk;
+
+	testDisk.get_data();
+
+	testDisk.print();
+
+	system("pause");
+}
