@@ -1,11 +1,11 @@
 //Aaron Settle
-//2-5-15
+//2-24-15
 //OS Project
 #include "disk.h"
 
-void Disk::get_data(){
+void Disk::loader(){
 	std::string line;
-	int i = 0, id, codeSize, priority, inBuff, outBuff, tempBuff;
+	int i = 0, id, codeSize, priority, inBuff, outBuff, tempBuff, startIndex, endIndex;
 	std::ifstream input_file("Program-File.txt");
 	if (!input_file)
 	{
@@ -21,9 +21,7 @@ void Disk::get_data(){
 				line.erase(0, 6);
 				std::istringstream iss(line);
 				iss >> id >> std::hex >> codeSize >> priority;
-				testDisk.pcbTemp.push_back(id);
-				testDisk.pcbTemp.push_back(codeSize);
-				testDisk.pcbTemp.push_back(priority);
+				startIndex = i;
 			}
 			else if (line.at(3) == 'D'){
 				line.erase(0, 7);
@@ -34,7 +32,17 @@ void Disk::get_data(){
 				testDisk.pcbTemp.push_back(tempBuff);
 			}
 			else if (line.at(3) == 'E'){
-				line.erase();
+				endIndex = i;
+				PCB pcb;
+				pcb.jobID = id;
+				pcb.codeSize = codeSize;
+				pcb.priority = priority;
+				pcb.inBuffer = inBuff;
+				pcb.outBuffer = outBuff;
+				pcb.tempBuffer = tempBuff;
+				pcb.startDisk = startIndex;
+				pcb.endDisk = endIndex;
+				pcb.pcbVec.push_back(pcb);
 			}
 		}
 		else
