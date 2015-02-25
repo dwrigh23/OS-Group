@@ -54,7 +54,7 @@ void Disk::loader(){
 }
 
 void Disk::print(){
-	for (string* p = &testDisk.disk[0]; p != &testDisk.disk[4095]; p++){
+	for (string* p = &testDisk.disk[0]; p != &testDisk.disk[4096]; p++){
 		cout << *p << endl;
 	};
 }
