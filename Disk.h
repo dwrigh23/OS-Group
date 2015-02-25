@@ -1,9 +1,10 @@
 //Aaron Settle
-//2-5-15
+//2-24-15
 //OS Project
 #ifndef DISK_H
 #define DISK_H
 #include <vector>
+#include "PCB.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,14 +16,14 @@ class Disk
 private:
 	struct hardDisk
 	{
-		string disk [4095];
-		vector<int> pcbTemp;
+		string disk [4096];
 	};
 	hardDisk testDisk;
 
+	int startIndex, endIndex;
 public:
 
-	void Disk::get_data();
+	void Disk::loader();
 
 	void Disk::print();
 };
