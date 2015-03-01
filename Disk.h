@@ -1,5 +1,5 @@
 //Aaron Settle
-//2-24-15
+//2-5-15
 //OS Project
 #ifndef DISK_H
 #define DISK_H
@@ -22,9 +22,11 @@ private:
 
 	int startIndex, endIndex;
 public:
-
+	//Loads instructions into testDisk string array and creates a pcb instance with
+	//values extracted from the Job and Data Control Cards
 	void Disk::loader();
 
+	//Prints testDisk's content
 	void Disk::print();
 };
 #endif 
