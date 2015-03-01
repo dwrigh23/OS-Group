@@ -1,32 +1,30 @@
 //Aaron Settle
-//2-26-2015
+//2-28-2015
 //OS Project
-#ifndef PCB_H 
-#define PCB_H
+#ifndef CPU_H 
+#define CPU_H
 #include <string>
 
 using namespace std;
 
 class CPU{
 private:
-
-
-
+	
 public:
 
-	class Fetch{
-		string fetch();
+	string fetch();
 
-	};
+	string hexToBin(string hex);
+	
+	const char* hexSwitch(char hex);
 
-	class Decode{
-		string hexToBin(string instruction);
+	string decode(string binary);
+};
 
-		string decode(string binary);
+class Execute{
+private:
 
-	};
-
-	class Execute{
+public:
 		//Case 00
 		//Ins:RD, Type:IO, Read contents of IP buffer into an accumulator
 		void read();
@@ -108,9 +106,6 @@ public:
 		//Case 1A
 		//Ins:BLZ, Type:Imm, Branches to an address when content of B-reg < 0
 		void branchLZ();
-
-	};
-
 };
 
 #endif
