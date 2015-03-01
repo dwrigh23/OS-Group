@@ -1,5 +1,5 @@
 //Aaron Settle
-//2-28-2015
+//2-26-2015
 //OS Project
 #ifndef CPU_H 
 #define CPU_H
@@ -11,13 +11,16 @@ class CPU{
 private:
 	
 public:
-
+	//Retrieve an instruction from the disk
 	string fetch();
 
+	//Convert instructions to binary format (Base 2)
 	string hexToBin(string hex);
 	
+	//Hex to binary "Repository", if you will
 	const char* hexSwitch(char hex);
 
+	//Analyze and decode instruction that has been converted from Hex to Binary
 	string decode(string binary);
 };
 
