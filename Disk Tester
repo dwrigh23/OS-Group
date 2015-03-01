@@ -1,15 +1,17 @@
 #include "disk.h"
+#include "CPU.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
 int main(){
+	CPU cpu;
 	Disk testDisk;
 
-	testDisk.get_data();
+	testDisk.loader();
 
-	testDisk.print();
+	cpu.hexToBin("0x0123ABC");
 
 	system("pause");
 }
