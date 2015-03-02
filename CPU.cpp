@@ -2,15 +2,14 @@
 //2-28-2015
 //OS Project
 #include "CPU.h"
-#include <iostream>
+#include <bitset>
 #include <string>
-#include<bitset>
-
+#include <iostream>
 /*string CPU::fetch(){
 
 };*/
 
-string CPU::hexToBin(string hex){
+string CPU::decode(string hex){
 	string binary;
 	hex.erase(0, 2);
 	for (int i = 0; i != hex.length(); ++i){
@@ -41,93 +40,126 @@ const char* CPU::hexSwitch(char hex){
 	case 'F': return "1111";
 	}
 };
-/*string CPU::decode(string binary){
 
+void CPU::execute(string binary){
 
-};*/
+	string caseBits = binary.substr(0, 2);
 
+	//Case 1: If substring == "00"
+	//Arithmetic instruction format
+	if (caseBits == "00"){
+		arithmeticFormat(binary);
+	};
 
-/*
-//Case 00
-//Ins:RD, Type:IO, Read contents of IP buffer into an accumulator
-void Execute::read(){};
-//Case 01
-//Ins:WR, Type:IO, Write contents of accumulator into OP buffer
-void Execute::write(){};
-//Case 02
-//Ins:ST, Type:Imm, Store contents of a register into an address
-void Execute::store(){};
-//Case 03
-//Ins:LW, Type:Imm, Load content of an address into a register
-void Execute::loadAddress(){};
-//Case 04
-//Ins:MOV, Type:Reg, Transfers the content of 1 register into another
-void Execute::regMove(){};
-//Case 05
-//Ins:ADD, Type:Reg, Add content of 2 S-reg into D-reg
-void Execute::regAdd(){};
-//Case 06
-//Ins:SUB, Type:Reg, Subtract content of 2 S-reg into D-reg
-void regSubtract(){};
-//Case 07
-//Ins:MUL, Type:Reg, Multiply content of 2 S-reg into D-reg
-void Execute::regMultiply(){};
-//Case 08
-//Ins:DIV, Type:Reg, Divide content of 2 S-reg into D-reg
-void Execute::regDivide(){};
-//Case 09
-//Ins:AND, Type:Reg, Logical AND of 2 S-reg into D-reg
-void Execute::regLogicAnd(){};
-//Case 0A
-//Ins:OR, Type:Reg, Logical OR of 2 S-reg into D-reg
-void Execute::regLogicOr(){};
-//Case 0B
-//Ins:MOVI, Type:Imm, Transfers address/data directly into reg
-void Execute::transferData(){};
-//Case 0C
-//Ins:ADDI, Type:Imm, Adds a data rirectly to the content of a reg
-void Execute::addData(){};
-//Case 0D
-//Ins:MULI, Type:Imm, Multiplies a data directly to the content of a reg
-void Execute::multiplyData(){};
-//Case 0E
-//Ins:DIVI, Type:Imm, Divides a data directly to the content of a reg
-void Execute::divideData(){};
-//Case 0F
-//Ins:LDI, Type:Imm, Loads a data/address directly to the content of a reg
-void Execute::loadData(){};
-//Case 10
-//Ins:SLT, Type:Reg, Sets the D-reg to 1 if 1st S-reg < 2nd B-reg, 0 otherwise
-void Execute::setLessReg(){};
-//Case 11
-//Ins:SLTI, Type:Imm, Sets the D-reg to 1 if 1st S-reg < a data, 0 otherwise
-void Execute::setLessData(){};
-//Case 12
-//Ins:HLT, Type:Jmp, Logical end of program
-void Execute::halt(){};
-//Case 13
-//Ins:NOP, Type:--, Does nothing and moves to next instruction
-void Execute::nothing(){};
-//Case 14
-//Ins:JMP, Type:jmp, Jumps to a specified location
-void Execute::jump(){};
-//Case 15
-//Ins:BEQ, Type:Imm, Branches to an address when content of B-reg = D-reg
-void Execute::branchED(){};
-//Case 16
-//Ins:BNE, Type:Imm, Branches to an address when content of B-reg <> D-reg
-void Execute::branchNED(){};
-//Case 17
-//Ins:BEZ, Type:Imm, Branches to an address when content of B-reg = 0
-void Execute::branchEZ(){};
-//Case 18
-//Ins:BNZ, Type:Imm, Branches to an address when content of B-reg <> 0
-void Execute::branchNEZ(){};
-//Case 19
-//Ins:BGZ, Type:Imm, Branches to an address when content of B-reg > 0
-void Execute::branchGZ(){};
-//Case 1A
-//Ins:BLZ, Type:Imm, Branches to an address when content of B-reg < 0
-void Execute::branchLZ(){};
+	//Case 2: If substring == "01"
+	//Condition branch and immediate format
+	if (caseBits == "01"){
+		branchFormat(binary);
+	}
+	//Case 3: If substring == "10"
+	//Conditional jump format
+	if (caseBits == "10"){
+		jumpFormat(binary);
+	}
+	//Case 4: If substring == "11"
+	//IO instruction format
+	if (caseBits == "11"){
+		ioFormat(binary);
+	}
+}
+
+//Case 00, register transfer using 2 sources and 1 destination
+//so this uses the "R" type instructions of: MOV ADD SUB MUL DIV AND OR SLT
+void arithmeticFormat(string binary){
+	//convert opcode into integral type for switch
+	bitset<6> oc(binary.substr(2, 6));
+	int opcode = oc.to_ulong;
+
+	//convert binary substrings to decimal integers for accessing registers by index properly
+	int src_reg = stoi(binary.substr(8, 4), nullptr, 2);
+	int src_reg2 = stoi(binary.substr(12, 4), nullptr, 2);
+	int dest_reg = stoi(binary.substr(16, 4), nullptr, 2);
+
+	//using switch for opcode as suggested in specs
+	switch (opcode){
+	case 000100:  //000100(2) = 04(16), Instruction: MOV
+		cpu.registers[src_reg] = cpu.registers[src_reg2];
+		break;
+	case 000101:  //000101(2) = 05(16), Instruction: ADD
+		cpu.registers[dest_reg] = cpu.registers[src_reg] + cpu.registers[src_reg2];
+		break;
+	case 000110:  //000110(2) = 06(16), Instruction: SUB
+		cpu.registers[dest_reg] = cpu.registers[src_reg] - cpu.registers[src_reg2];
+		break;
+	case 000111:  //000111(2) = 07(16), Instruction: MUL
+		cpu.registers[dest_reg] = cpu.registers[src_reg] * cpu.registers[src_reg2];
+		break;
+	case 001000:  //001000(2) = 08(16), Instruction: DIV
+		cpu.registers[dest_reg] = cpu.registers[src_reg] / cpu.registers[src_reg2];
+		break;
+	case 001001:  //001001(2) = 09(16), Instruction: AND
+		if (cpu.registers[src_reg] != 0 && cpu.registers[src_reg2] != 0){
+			cpu.registers[dest_reg] = 1;
+		}
+		else{
+			cpu.registers[dest_reg] = 0;
+		}
+		break;
+	case 001010:  //001010(2) = 0A(16), Instruction: OR
+		if (cpu.registers[src_reg] == 0 && cpu.registers[src_reg2] == 0){
+			cpu.registers[dest_reg] = 0;
+		}
+		else{
+			cpu.registers[dest_reg] = 1;
+		}
+		break;
+	case 010000:  //010000(2) = 10(16), Instruction: SLT
+		if (cpu.registers[src_reg] < cpu.registers[src_reg2]){
+			cpu.registers[dest_reg] = 1;
+		}
+		else{
+			cpu.registers[dest_reg] = 0;
+		}
+		break;
+	default: break;
+	}
 };
-*/
+
+//Case 01, Conditional Brance and Immediate format using "I" type instructions:
+//ST LW MOVI ADDI MULI DIVI LDI SLTI BEQ BNE BEZ BNZ BGS BLZ
+void branchFormat(string binary){
+	//convert opcode into integral type for switch
+	bitset<6> oc(binary.substr(2, 6));
+	int opcode = oc.to_ulong;
+
+	//convert binary substrings to decimal integers for accessing registers by index properly
+	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
+	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
+	int address = stoi(binary.substr(16, 16), nullptr, 2);
+
+};
+
+//Case 10, Unconditional Jump format using "J" type instructions:
+//HLT JMP
+void jumpFormat(string binary){
+	//convert opcode into integral type for switch
+	bitset<6> oc(binary.substr(2, 6));
+	int opcode = oc.to_ulong;
+
+	//convert binary substrings to decimal integers for accessing registers by index properly
+	int address = stoi(binary.substr(8, 24), nullptr, 2);
+
+};
+
+//Case 11, Input/Output format using "IO" type instructions:
+//RD WR
+void ioFormat(string binary){
+	//convert opcode into integral type for switch
+	bitset<6> oc(binary.substr(2, 6));
+	int opcode = oc.to_ulong;
+
+	//convert binary substrings to decimal integers for accessing registers by index properly
+	int reg_1 = stoi(binary.substr(8, 4), nullptr, 2);
+	int reg_2 = stoi(binary.substr(12, 4), nullptr, 2);
+	int address = stoi(binary.substr(16, 16), nullptr, 2);
+};
