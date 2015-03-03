@@ -42,7 +42,7 @@ const char* CPU::hexSwitch(char hex){
 };
 
 void CPU::execute(string binary){
-
+	
 	string caseBits = binary.substr(0, 2);
 
 	//Case 1: If substring == "00"
@@ -137,8 +137,89 @@ void branchFormat(string binary){
 	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
 	int address = stoi(binary.substr(16, 16), nullptr, 2);
 
-};
+	switch (opcode)
+	{
+	case 001011:  // 001011(2) = 0B(16), Instruction: MOVI
+		cpu.registers[d_reg] = address;
+		break;
+	case 001100:  //001100(2) = 0C(16), Instruction: ADDI
+		if (address == 4)
+			cpu.registers[d_reg] += address / 4;
+		else if (address == 0)
+			cpu.registers[d_reg] = cpu.registers[b_reg] + address;
+		else
+			cpu.registers[d_reg] = cpu.registers[d_reg] + address;
+		break;
+	case 001101:  //001101(2) = 0D(16), Instruction: MULI
+		cpu.registers[d_reg] += b_reg * (address);
+		break;
+	case 001110:  //001110(2) = 0E(16), Instruction: DIVI
+		cpu.registers[d_reg] += b_reg / (address);
+		break;
+	case 001111:  //001111(2) = 0F(16), Instruction: LDI
+		cpu.registers[d_reg] = address / 4;
+		break;
+	case 010001:  //010001(2) = 11(16), Instruction: SLTI
+		if (cpu.registers[b_reg] < (address))
+			cpu.registers[d_reg] = 1;
+		else
+			cpu.registers[d_reg] = 0;
+		break;
+	case 010101:  //010101(2) = 15(16), Instruction: BEQ
+		if (cpu.registers[d_reg] == cpu.registers[b_reg])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
+		break;
+	case 010110:  //010110(2) = 16(16), Instruction: BNE
+		if (cpu.registers[d_reg] != cpu.registers[b_reg])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
+		break;
+	case 010111:  //010111(2) = 17(16), Instruction: BEZ
+		if (cpu.registers[d_reg] == cpu.registers[1])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
+		break;
+	case 011000:  //011000(2) = 18(16), Instruction: BNZ
+		if (cpu.registers[d_reg] != cpu.registers[1])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
+		break;
+	case 011001:  //011001(2) = 19(16), Instruction: BGZ
+		if (cpu.registers[d_reg] > cpu.registers[1])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
+		break;
+	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
+		if (cpu.registers[d_reg] < cpu.registers[1])
+		{
+			cpu.programCounter = (address / 4) - 1;
+		}
 
+		break;
+	case 000010: //000010(2) = 2(16), Instruction: ST
+		if (d_reg != 0 && b_reg != 0)
+		{
+			ProgramCache[cpu.registers[d_reg]] = cpu.registers[b_reg].to_string();
+		}
+		else
+		{
+			cout << "ST";
+		}
+
+		break;
+	case 000011: //000011(2) = 3(16), Instruction: LW
+		register[d_reg] = int.Parse(ProgramCache[register[b_reg]]);
+		break;
+
+	}
+};
+/*
 //Case 10, Unconditional Jump format using "J" type instructions:
 //HLT JMP
 void jumpFormat(string binary){
@@ -149,6 +230,20 @@ void jumpFormat(string binary){
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int address = stoi(binary.substr(8, 24), nullptr, 2);
 
+	switch (opcode)
+	{
+	case 010010:  //HLT
+		currentPCB.state = PCB.Status.terminated;
+		cout << "Halt command encounter" << endl;
+		break;
+	case 010100: //JMP
+
+		cpu.program_counter = (address / 4) - 1;
+
+		break;
+	default:
+		break;
+	}
 };
 
 //Case 11, Input/Output format using "IO" type instructions:
@@ -162,4 +257,4 @@ void ioFormat(string binary){
 	int reg_1 = stoi(binary.substr(8, 4), nullptr, 2);
 	int reg_2 = stoi(binary.substr(12, 4), nullptr, 2);
 	int address = stoi(binary.substr(16, 16), nullptr, 2);
-};
+};*/
