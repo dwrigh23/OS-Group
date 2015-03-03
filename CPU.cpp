@@ -42,7 +42,8 @@ const char* CPU::hexSwitch(char hex){
 };
 
 void CPU::execute(string binary){
-	
+	//implement for loop
+
 	string caseBits = binary.substr(0, 2);
 
 	//Case 1: If substring == "00"
