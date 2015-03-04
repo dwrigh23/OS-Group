@@ -43,31 +43,33 @@ const char* CPU::hexSwitch(char hex){
 
 void CPU::execute(string binary){
 	//implement for loop
+	for (programCounter = 0; programCounter < cpu.thisProcess.codeSize; programCounter++){
+		string caseBits = binary.substr(0, 2);
 
-	string caseBits = binary.substr(0, 2);
+		//Case 1: If substring == "00"
+		//Arithmetic instruction format
+		if (caseBits == "00"){
+			arithmeticFormat(binary);
+		};
 
-	//Case 1: If substring == "00"
-	//Arithmetic instruction format
-	if (caseBits == "00"){
-		arithmeticFormat(binary);
-	};
-
-	//Case 2: If substring == "01"
-	//Condition branch and immediate format
-	if (caseBits == "01"){
-		branchFormat(binary);
-	}
-	//Case 3: If substring == "10"
-	//Conditional jump format
-	if (caseBits == "10"){
-		jumpFormat(binary);
-	}
-	//Case 4: If substring == "11"
-	//IO instruction format
-	if (caseBits == "11"){
-		ioFormat(binary);
+		//Case 2: If substring == "01"
+		//Condition branch and immediate format
+		if (caseBits == "01"){
+			branchFormat(binary);
+		}
+		//Case 3: If substring == "10"
+		//Conditional jump format
+		if (caseBits == "10"){
+			jumpFormat(binary);
+		}
+		//Case 4: If substring == "11"
+		//IO instruction format
+		if (caseBits == "11"){
+			ioFormat(binary);
+		}
 	}
 }
+
 
 //Case 00, register transfer using 2 sources and 1 destination
 //so this uses the "R" type instructions of: MOV ADD SUB MUL DIV AND OR SLT
