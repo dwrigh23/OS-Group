@@ -1,5 +1,5 @@
 //Aaron Settle
-//3-1-15
+//2-24-15
 //OS Project
 #include "disk.h"
 
@@ -35,17 +35,8 @@ void Disk::loader(){
 				iss >> std::hex >> inBuff >> std::hex >> outBuff >> std::hex >> tempBuff; //Extract DCC values
 			}
 			else if (line.at(3) == 'E'){
-				endIndex = i;
-				PCB pcb;		//Create PCB instance for this specific job
-				pcb.jobID = id;
-				pcb.codeSize = codeSize;
-				pcb.priority = priority;
-				pcb.inBuffer = inBuff;
-				pcb.outBuffer = outBuff;
-				pcb.tempBuffer = tempBuff;
-				pcb.startDisk = startIndex;
-				pcb.endDisk = endIndex;
-				pcb.pcbVec.push_back(pcb);	//Push job to vector in order
+				endIndex = i;	
+				pcb.createPCB(id, codeSize, priority, startIndex, endIndex);
 			}
 		}
 		else
