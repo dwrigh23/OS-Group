@@ -10,9 +10,26 @@ using namespace std;
 class PCB
 {
 public:
+	//Storage unit for PCB instances of jobs, better than linked list b/c lower overhead and simple to use
 	vector<PCB> pcbVec;
-	int jobID, codeSize, priority, inBuffer, outBuffer, tempBuffer, programCounter;
-	int startDisk, endDisk, startRam, endRam;
-};
 
+	//Job properties
+	int jobID, codeSize, priority, inBuffer, outBuffer, tempBuffer, programCounter;
+
+	//Job location indexes
+	int startDisk, endDisk, startRam, endRam;
+
+	enum processStatus { 
+		error, 
+		created, 
+		ready, 
+		waiting, 
+		running, 
+		terminated };
+
+	processStatus processState;
+
+	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
+};
+PCB pcb;
 #endif
