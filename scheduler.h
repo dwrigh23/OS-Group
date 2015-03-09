@@ -7,10 +7,18 @@
 calss scheduler
 {
   
+  //the refrence i am looking at had these but idk if we really need them
+  //http://cplusplus.happycodings.com/algorithms/code37.html
+  
+  //I think this is an array to hold user inputed burst times
+ // int Bu[20];
+ 
+ //No idea what any of this is.....
+	//float Twt,Awt,A[10],Wt[10],w;
   
   public 
-  //First come first serve
-  void fcfs();
+  //First in first out
+  void fifo();
   
   //Shortest job first
   void sjf();
@@ -28,6 +36,7 @@ calss scheduler
   void priority();
   
   //Get the data
+  //NOt sure if this is necisary.....
   void getdata();
   
 };
