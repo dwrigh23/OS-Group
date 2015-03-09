@@ -205,20 +205,6 @@ void branchFormat(string binary){
 		}
 
 		break;
-	case 000010: //000010(2) = 2(16), Instruction: ST
-		if (d_reg != 0 && b_reg != 0)
-		{
-			ProgramCache[cpu.registers[d_reg]] = cpu.registers[b_reg].to_string();
-		}
-		else
-		{
-			cout << "ST";
-		}
-
-		break;
-	case 000011: //000011(2) = 3(16), Instruction: LW
-		register[d_reg] = int.Parse(ProgramCache[register[b_reg]]);
-		break;
 
 	}
 };
