@@ -27,4 +27,7 @@ calss scheduler
   //Priority
   void priority();
   
+  //Get the data
+  void getdata();
+  
 };
