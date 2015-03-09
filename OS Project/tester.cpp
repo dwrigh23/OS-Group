@@ -1,0 +1,17 @@
+#include "C:\Users\Aaron\Documents\Visual Studio 2013\Projects\OS Project\OS Project\disk.h"
+#include "CPU.h"
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+int main(){
+	CPU cpu;
+	Disk testDisk;
+
+	testDisk.loader();
+
+	cpu.decode("0x0123ABC");
+
+	system("pause");
+}
