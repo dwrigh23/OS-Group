@@ -1,4 +1,4 @@
-#include "C:\Users\Aaron\Documents\Visual Studio 2013\Projects\OS Project\OS Project\disk.h"
+#include "disk.h"
 #include "CPU.h"
 #include <vector>
 #include <iostream>

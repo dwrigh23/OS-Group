@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\SourceTreeRepos\OS Project\scheduler.cpp" />
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="disk.cpp" />
     <ClCompile Include="PCB.cpp" />
@@ -71,10 +72,14 @@
     <ClCompile Include="tester.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\SourceTreeRepos\OS Project\scheduler.h" />
     <ClInclude Include="CPU.h" />
     <ClInclude Include="disk.h" />
     <ClInclude Include="PCB.h" />
     <ClInclude Include="RAM.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\SourceTreeRepos\OS Project\Program-File.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

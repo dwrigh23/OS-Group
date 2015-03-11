@@ -30,19 +30,30 @@
     <ClCompile Include="RAM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\SourceTreeRepos\OS Project\scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="disk.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCB.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CPU.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCB.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RAM.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\SourceTreeRepos\OS Project\scheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\SourceTreeRepos\OS Project\Program-File.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
