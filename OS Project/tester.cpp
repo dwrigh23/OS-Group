@@ -10,6 +10,7 @@ int main(){
 	Disk testDisk;
 
 	testDisk.loader();
+	//testDisk.longschedler();
 
 	cpu.decode("0x0123ABC");
 
