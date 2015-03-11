@@ -14,7 +14,7 @@ calss scheduler
  // int Bu[20];
  
  //No idea what any of this is.....
-	//float Twt,Awt,A[10],Wt[10],w;
+//float Twt,Awt,A[10],Wt[10],w;
   
   public 
   //First in first out
