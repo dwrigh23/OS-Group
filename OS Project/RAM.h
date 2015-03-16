@@ -28,7 +28,7 @@ public:
 	void writeRam(string instruction);
 
 	//Populates the array from a specified start position
-	void writeRamLoc(string instruction ,int startIndex);
+	void writeRamLocation(string instruction ,int startIndex);
 
 	//Returns amount of unpopulated locations in RAM
 	int getSpaceRemaining();

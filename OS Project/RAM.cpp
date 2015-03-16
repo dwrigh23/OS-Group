@@ -45,7 +45,7 @@ void RAM::writeRam(string instruction){
 	};
 }
 
-void RAM::writeRamLoc(string instruction, int startIndex){
+void RAM::writeRamLocation(string instruction, int startIndex){
 	currentIndex = startIndex;
 	if (instruction != "" && startIndex > -1 && startIndex < testRam.maxFill)
 	{

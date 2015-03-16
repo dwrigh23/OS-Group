@@ -30,6 +30,12 @@
     <ClCompile Include="RAM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LTS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="STS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="disk.h">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="RAM.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LTS.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="STS.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
