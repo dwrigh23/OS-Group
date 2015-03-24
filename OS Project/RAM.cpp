@@ -52,6 +52,9 @@ void RAM::writeRamLocation(string instruction, int startIndex){
 		testRam.memory[startIndex] = instruction;
 		//need to track start/end pos
 	}
+
+
+
 	else
 	{
 		cout << "Invalid instruction or memory location." << endl;
