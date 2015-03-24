@@ -106,20 +106,12 @@ void CPU::arithmeticFormat(string binary){
 		}
 		break;
 	case 001001:  //001001(2) = 09(16), Instruction: AND
-		if (cpu.registers[src_reg] != 0 && cpu.registers[src_reg2] != 0){
-			cpu.registers[dest_reg] = 1;
-		}
-		else{
-			cpu.registers[dest_reg] = 0;
-		}
+		int temp = src_reg & src_reg2;
+		cpu.registers[dest_reg] = temp;
 		break;
 	case 001010:  //001010(2) = 0A(16), Instruction: OR
-		if (cpu.registers[src_reg] == 0 && cpu.registers[src_reg2] == 0){
-			cpu.registers[dest_reg] = 0;
-		}
-		else{
-			cpu.registers[dest_reg] = 1;
-		}
+		int temp = src_reg | src_reg2;
+		cpu.registers[dest_reg] = temp;
 		break;
 	case 010000:  //010000(2) = 10(16), Instruction: SLT
 		if (cpu.registers[src_reg] < cpu.registers[src_reg2]){
