@@ -192,21 +192,12 @@ void CPU::branchFormat(string binary){
 			cpu.programCounter = (address);
 		}
 		break;
-/*	case 000010: //000010(2) = 2(16), Instruction: ST
-		if (d_reg != 0 && b_reg != 0)
-		{
-			cpu.registers[d_reg] = cpu.registers[b_reg];
-		}
-		else
-		{
-			cout << "ST";
-		}
-
+	case 000010: //000010(2) = 2(16), Instruction: ST
+		cpu.registers[address] += cpu.registers[d_reg];
 		break;
 	case 000011: //000011(2) = 3(16), Instruction: LW
-		register[d_reg] = int.Parse(ProgramCache[register[b_reg]]);
+		
 		break;
-		*/
 	}
 };
 
@@ -224,12 +215,10 @@ void CPU::jumpFormat(string binary){
 	{
 	case 010010:  //HLT
 		cpu.thisProcess.processState = thisProcess.terminated;
-		cout << "Halt command encounter" << endl;
+		cout << "Halt command encountered." << endl;
 		break;
 	case 010100: //JMP
-
-		cpu.programCounter = (address) - 1;
-
+		cpu.programCounter = (address);
 		break;
 	default:
 		break;
