@@ -135,8 +135,8 @@ void CPU::branchFormat(string binary){
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
-	int address = stoi(binary.substr(16, 16), nullptr, 2);
-
+	int address = stoi(binary.substr(16, 16), nullptr, 2); //It is divided by 4 because, in byte addressing, a word uses 4 bytes.
+			//Therefore, using word alignment, we can only access addresses that are divisible by 4.
 	switch (opcode)
 	{
 	case 001011:  // 001011(2) = 0B(16), Instruction: MOVI
@@ -164,32 +164,32 @@ void CPU::branchFormat(string binary){
 		break;
 	case 010101:  //010101(2) = 15(16), Instruction: BEQ
 		if (cpu.registers[b_reg] == cpu.registers[d_reg]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 010110:  //010110(2) = 16(16), Instruction: BNE
 		if (cpu.registers[b_reg] != cpu.registers[d_reg]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 010111:  //010111(2) = 17(16), Instruction: BEZ
 		if (cpu.registers[d_reg] == cpu.registers[1]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 011000:  //011000(2) = 18(16), Instruction: BNZ
 		if (cpu.registers[d_reg] != cpu.registers[1]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 011001:  //011001(2) = 19(16), Instruction: BGZ
 		if (cpu.registers[d_reg] > cpu.registers[1]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
 		if (cpu.registers[d_reg] < cpu.registers[1]){
-			cpu.programCounter = (address);
+			cpu.programCounter = (address / 4);
 		}
 		break;
 	case 000010: //000010(2) = 2(16), Instruction: ST
