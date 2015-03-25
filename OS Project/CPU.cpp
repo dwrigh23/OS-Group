@@ -143,15 +143,7 @@ void CPU::branchFormat(string binary){
 		cpu.registers[d_reg] = address;
 		break;
 	case 001100:  //001100(2) = 0C(16), Instruction: ADDI
-		if (address == 4){
-			cpu.registers[d_reg] += address;
-		}
-		else if (address == 0){
-			cpu.registers[d_reg] = cpu.registers[b_reg] + address;
-		}
-		else{
-			cpu.registers[d_reg] = cpu.registers[d_reg] + address;
-		}
+		cpu.registers[d_reg] = cpu.registers[b_reg] + address;
 		break;
 	case 001101:  //001101(2) = 0D(16), Instruction: MULI
 		cpu.registers[d_reg] += b_reg * (address);
@@ -171,33 +163,33 @@ void CPU::branchFormat(string binary){
 		}
 		break;
 	case 010101:  //010101(2) = 15(16), Instruction: BEQ
-		if (cpu.registers[d_reg] == cpu.registers[b_reg]){
-			cpu.programCounter = (address) - 1;
+		if (cpu.registers[b_reg] == cpu.registers[d_reg]){
+			cpu.programCounter = (address);
 		}
 		break;
 	case 010110:  //010110(2) = 16(16), Instruction: BNE
-		if (cpu.registers[d_reg] != cpu.registers[b_reg]){
-			cpu.programCounter = (address) - 1;
+		if (cpu.registers[b_reg] != cpu.registers[d_reg]){
+			cpu.programCounter = (address);
 		}
 		break;
 	case 010111:  //010111(2) = 17(16), Instruction: BEZ
 		if (cpu.registers[d_reg] == cpu.registers[1]){
-			cpu.programCounter = (address) - 1;
+			cpu.programCounter = (address);
 		}
 		break;
 	case 011000:  //011000(2) = 18(16), Instruction: BNZ
 		if (cpu.registers[d_reg] != cpu.registers[1]){
-			cpu.programCounter = (address) - 1;
+			cpu.programCounter = (address);
 		}
 		break;
 	case 011001:  //011001(2) = 19(16), Instruction: BGZ
 		if (cpu.registers[d_reg] > cpu.registers[1]){
-			cpu.programCounter = (address) - 1;
+			cpu.programCounter = (address);
 		}
 		break;
 	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
 		if (cpu.registers[d_reg] < cpu.registers[1]){
-			cpu.programCounter = (address) - 1;
+			cpu.programCounter = (address);
 		}
 		break;
 /*	case 000010: //000010(2) = 2(16), Instruction: ST
