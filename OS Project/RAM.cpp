@@ -2,6 +2,7 @@
 //3-3-2015
 //OS Project
 #include "RAM.h"
+#include "PCB.h"
 #include <string>
 #include <array>
 #include <iostream>
@@ -12,7 +13,7 @@ int RAM::getSpaceRemaining(){
 }
 
 int RAM::getCurrentFill(){
-	return testRam.currentFill;	//current element count
+	return testRam.currentFill / 1024;	//current element count
 }
 
 void RAM::resetRam(){
@@ -34,10 +35,15 @@ void RAM::writeRam(string instruction){
 	{
 		if (testRam.currentIndex < testRam.maxFill && testRam.currentIndex > -1)
 		{
-			testRam.memory[currentIndex] = instruction;
-			currentIndex++;
+			if (testRam.memory[currentIndex] == ""){
+				testRam.memory[currentIndex] = instruction;
+				currentIndex++;
+			}
 			//need to track start/end pos
-		};
+			else{
+				currentIndex++;
+			}
+		}
 	}
 	else
 	{
@@ -49,12 +55,15 @@ void RAM::writeRamLocation(string instruction, int startIndex){
 	currentIndex = startIndex;
 	if (instruction != "" && startIndex > -1 && startIndex < testRam.maxFill)
 	{
-		testRam.memory[startIndex] = instruction;
+		if (testRam.memory[currentIndex] == ""){
+			testRam.memory[currentIndex] = instruction;
+			currentIndex++;
+		}
 		//need to track start/end pos
+		else{
+			currentIndex++;
+		}
 	}
-
-
-
 	else
 	{
 		cout << "Invalid instruction or memory location." << endl;

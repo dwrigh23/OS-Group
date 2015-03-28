@@ -5,9 +5,30 @@
 #include <bitset>
 #include <string>
 #include <iostream>
-/*string CPU::fetch(){
 
-};*/
+vector<string> CPU::fetch(vector<PCB> readyQueue){
+	//-get current instance of pcb from ready queue(vector)
+	int i = 0, pc;
+	string currentInstr;
+	PCB currentPCB = readyQueue[i];
+	vector<string> instrList;
+	
+	//- set pc to pcb.pc
+	//pc = readyQueue[i].programCounter;
+		//- for (use pcb's ram start location as initial location)
+	//{
+		//-copy instruction from ram location to a vector or array
+			//- increment PC
+			//- iterate thru ram until it reaches pcb's ram end location/reaches pcb.codesize
+	//}
+	for (int j = readyQueue[i].startRam; j <= readyQueue[i].endRam; j++){
+		currentInstr = testRam.memory[j];
+		instrList.push_back(currentInstr);
+	}
+
+	//-return the list of instructions
+	return instrList;
+};
 
 string CPU::decode(string hex){
 	string binary;

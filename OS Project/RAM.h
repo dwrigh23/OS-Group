@@ -4,6 +4,7 @@
 #ifndef RAM_H 
 #define RAM_H
 #include <string>
+#include <array>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ public:
 	//Returns amount of unpopulated locations in RAM
 	int getSpaceRemaining();
 
-	//Returns amounts of populated locations in RAM
+	//Returns percent of filled locations in RAM
 	int getCurrentFill();
 };
 RAM testRam;
