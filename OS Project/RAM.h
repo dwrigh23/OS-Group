@@ -4,6 +4,7 @@
 #ifndef RAM_H 
 #define RAM_H
 #include <string>
+#include <vector>
 #include <array>
 
 using namespace std;
@@ -26,10 +27,10 @@ public:
 	void freeRamLocation(int startIndex, int endIndex);
 
 	//Populates the array
-	void writeRam(string instruction);
+	void writeRam(vector<string> instruction);
 
 	//Populates the array from a specified start position
-	void writeRamLocation(string instruction ,int startIndex);
+	void writeRamLocation(vector<string> instruction, int startIndex);
 
 	//Returns amount of unpopulated locations in RAM
 	int getSpaceRemaining();

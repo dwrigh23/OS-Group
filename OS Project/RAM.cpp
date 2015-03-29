@@ -30,42 +30,57 @@ void RAM::freeRamLocation(int startIndex, int endIndex){
 	}
 };
 
-void RAM::writeRam(string instruction){
-	if (instruction != "")
-	{
-		if (testRam.currentIndex < testRam.maxFill && testRam.currentIndex > -1)
-		{
+void RAM::writeRam(vector<string> instructions){
+	int i = 0, counter = 0;
+	while (instructions[i] != ""){
+		if (counter == 0){
+			pcb.startRam = currentIndex;
+		}
+		else{
+			if (testRam.currentIndex < testRam.maxFill && testRam.currentIndex > -1)
+			{
+				if (testRam.memory[currentIndex] == ""){
+					testRam.memory[currentIndex] = instructions[i];
+					currentIndex++, i++, counter++;
+				}
+				//need to track start/end pos
+				else{
+					while (testRam.memory[currentIndex] != ""){
+						currentIndex++;
+					}
+				}
+			}
+			else{
+				cout << "Write failed. RAM is full or index is out of range." << endl;
+			}
+		}
+	}
+	pcb.endRam = currentIndex;
+}
+
+void RAM::writeRamLocation(vector<string> instructions, int startIndex){
+	currentIndex = startIndex;
+	int i = 0, counter = 0;
+	while (instructions[i] != ""){
+		if (counter == 0){
+			pcb.startRam = currentIndex;
+		}
+
+		if (startIndex > -1 && startIndex < testRam.maxFill){
 			if (testRam.memory[currentIndex] == ""){
-				testRam.memory[currentIndex] = instruction;
-				currentIndex++;
+				testRam.memory[currentIndex] = instructions[i];
+				currentIndex++, i++, counter++;
 			}
 			//need to track start/end pos
 			else{
-				currentIndex++;
+				while (testRam.memory[currentIndex] != ""){
+					currentIndex++;
+				}
 			}
 		}
-	}
-	else
-	{
-		cout << "Instruction is NULL/Empty!" << endl;
-	};
-}
-
-void RAM::writeRamLocation(string instruction, int startIndex){
-	currentIndex = startIndex;
-	if (instruction != "" && startIndex > -1 && startIndex < testRam.maxFill)
-	{
-		if (testRam.memory[currentIndex] == ""){
-			testRam.memory[currentIndex] = instruction;
-			currentIndex++;
-		}
-		//need to track start/end pos
 		else{
-			currentIndex++;
+			cout << "Invalid instruction or memory location." << endl;
 		}
 	}
-	else
-	{
-		cout << "Invalid instruction or memory location." << endl;
-	}
+	pcb.endRam = currentIndex;
 };

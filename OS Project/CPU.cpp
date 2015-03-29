@@ -6,23 +6,19 @@
 #include <string>
 #include <iostream>
 
-vector<string> CPU::fetch(vector<PCB> readyQueue){
+vector<string> CPU::fetch(PCB currentProc){
 	//-get current instance of pcb from ready queue(vector)
-	int i = 0, pc;
 	string currentInstr;
-	PCB currentPCB = readyQueue[i];
 	vector<string> instrList;
-	
-	//- set pc to pcb.pc
-	//pc = readyQueue[i].programCounter;
+
 		//- for (use pcb's ram start location as initial location)
 	//{
 		//-copy instruction from ram location to a vector or array
 			//- increment PC
 			//- iterate thru ram until it reaches pcb's ram end location/reaches pcb.codesize
 	//}
-	for (int j = readyQueue[i].startRam; j <= readyQueue[i].endRam; j++){
-		currentInstr = testRam.memory[j];
+	for (int i = currentProc.startRam; i <= currentProc.endRam; i++){
+		currentInstr = testRam.memory[i];
 		instrList.push_back(currentInstr);
 	}
 
@@ -63,8 +59,6 @@ const char* CPU::hexSwitch(char hex){
 };
 
 void CPU::execute(string binary){
-	//implement for loop
-	for (programCounter = 0; programCounter < cpu.thisProcess.codeSize; programCounter++){
 		string caseBits = binary.substr(0, 2);
 
 		//Case 1: If substring == "00"
@@ -88,7 +82,6 @@ void CPU::execute(string binary){
 		if (caseBits == "11"){
 			ioFormat(binary);
 		}
-	}
 }
 
 //Case 00, register transfer using 2 sources and 1 destination
@@ -183,6 +176,9 @@ void CPU::branchFormat(string binary){
 			cpu.registers[d_reg] = 0;
 		}
 		break;
+
+		//TODO: CPU doesn't need programcounter, these need to change the location of the program counter of the 
+		//process that's currently running. 
 	case 010101:  //010101(2) = 15(16), Instruction: BEQ
 		if (cpu.registers[b_reg] == cpu.registers[d_reg]){
 			cpu.programCounter = (address / 4);

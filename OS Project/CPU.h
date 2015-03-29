@@ -23,7 +23,7 @@ public:
 	int programCounter = 0;
 
 	//Retrieve an instruction from the disk
-	vector<string> fetch(vector<PCB> pcbVec);
+	vector<string> fetch(PCB currentProc);
 
 	//Convert instructions to binary format (Base 16 --> Base 2)
 	//We decided not to include a method convert from bin to hex b/c there's no simple way to implement it
