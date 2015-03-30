@@ -26,6 +26,7 @@ vector<string> CPU::fetch(PCB currentProc){
 	return instrList;
 };
 
+//Would passing the instrList from ---^, decoding in a loop, then storing in a new vector to pass to execute be a better method?
 string CPU::decode(string hex){
 	string binary;
 	hex.erase(0, 2);
@@ -58,6 +59,7 @@ const char* CPU::hexSwitch(char hex){
 	}
 };
 
+//Would passing a vector of instructions, executing in a for/while, and incrementing PC as it gets executed be a better method?
 void CPU::execute(string binary){
 		string caseBits = binary.substr(0, 2);
 
@@ -135,6 +137,7 @@ void CPU::arithmeticFormat(string binary){
 			cpu.registers[dest_reg] = 0;
 		}
 		break;
+	
 	default: break;
 	}
 };
@@ -182,32 +185,32 @@ void CPU::branchFormat(string binary){
 		//to the value of (address / 4) since currentIndex acts as the iterator, or programCounter per se.
 	case 010101:  //010101(2) = 15(16), Instruction: BEQ
 		if (cpu.registers[b_reg] == cpu.registers[d_reg]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 010110:  //010110(2) = 16(16), Instruction: BNE
 		if (cpu.registers[b_reg] != cpu.registers[d_reg]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 010111:  //010111(2) = 17(16), Instruction: BEZ
 		if (cpu.registers[d_reg] == cpu.registers[1]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 011000:  //011000(2) = 18(16), Instruction: BNZ
 		if (cpu.registers[d_reg] != cpu.registers[1]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 011001:  //011001(2) = 19(16), Instruction: BGZ
 		if (cpu.registers[d_reg] > cpu.registers[1]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
 		if (cpu.registers[d_reg] < cpu.registers[1]){
-			testRam.currentIndex = (address / 4);
+			pcb.programCounter = (address / 4);
 		}
 		break;
 	case 000010: //000010(2) = 2(16), Instruction: ST
@@ -217,6 +220,8 @@ void CPU::branchFormat(string binary){
 		//Add content of address to base reg, then store that in the destination register
 		cpu.registers[d_reg] = cpu.registers[address + cpu.registers[b_reg]];
 		break;
+
+	default: break;
 	}
 };
 
@@ -237,10 +242,10 @@ void CPU::jumpFormat(string binary){
 		cout << "Halt command encountered." << endl;
 		break;
 	case 010100: //JMP
-		testRam.currentIndex = (address);
+		pcb.programCounter = (address);
 		break;
-	default:
-		break;
+
+	default: break;
 	}
 };
 
@@ -250,9 +255,20 @@ void CPU::ioFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong;
+	string outputBuffer = to_string(cpu.registers[0]);
+
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int reg_1 = stoi(binary.substr(8, 4), nullptr, 2);
 	int reg_2 = stoi(binary.substr(12, 4), nullptr, 2);
 	int address = stoi(binary.substr(16, 16), nullptr, 2);
+
+	switch (opcode){
+	
+	case 000000: //RD, Reads content of the input buffer into the accumulator
+
+	case 000001: //WR, Writes the content of the accumulator into the output buffer
+		cout << "Output buffer contains: " << outputBuffer << endl;
+	default: break;
+	}
 };
