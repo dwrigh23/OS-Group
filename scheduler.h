@@ -39,4 +39,11 @@ calss scheduler
   //NOt sure if this is necisary.....
   void getdata();
   
+  
+  bool CheckRam();
+  
+  void getJobAddress();
+  
+  int getPriority();
+  
 };
