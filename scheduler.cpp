@@ -15,3 +15,22 @@ void scheduler::getdata(){
     cout<<"Enter the burst time for the proceses."
   }
 }
+
+bool CheckRam(jobsize, ram spot){
+  
+  if (jobsize<= ram.size-ram spot){
+   // store job in ram 
+   
+   //store physical address in PCB of start & end of job
+				
+				//store start address in base register
+				
+				//currect disk address=[i+1]
+			else{
+			//	currect disk address=[i]
+			}
+  }
+  
+  
+  
+}
