@@ -32,9 +32,6 @@ calss scheduler
   //Round Robin
   void rr();
   
-  //Priority
-  void priority();
-  
   //Get the data
   //NOt sure if this is necisary.....
   void getdata();
