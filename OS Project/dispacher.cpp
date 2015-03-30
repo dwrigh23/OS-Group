@@ -7,5 +7,5 @@
 
 using namespace std
 
-//send process to Ram
+//send process to CPU
 
