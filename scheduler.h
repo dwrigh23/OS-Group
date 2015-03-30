@@ -41,6 +41,6 @@ calss scheduler
   
   void getJobAddress();
   
-  int getPriority();
+  int Priority();
   
 };
