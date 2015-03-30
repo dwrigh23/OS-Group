@@ -66,19 +66,14 @@
   <ItemGroup>
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="disk.cpp" />
-    <ClCompile Include="LTS.cpp" />
-    <ClCompile Include="PCB.cpp" />
     <ClCompile Include="RAM.cpp" />
-    <ClCompile Include="STS.cpp" />
     <ClCompile Include="tester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU.h" />
     <ClInclude Include="disk.h" />
-    <ClInclude Include="LTS.h" />
     <ClInclude Include="PCB.h" />
     <ClInclude Include="RAM.h" />
-    <ClInclude Include="STS.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

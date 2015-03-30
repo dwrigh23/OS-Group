@@ -21,19 +21,10 @@
     <ClCompile Include="disk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PCB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CPU.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RAM.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LTS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="STS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,12 +39,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="RAM.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LTS.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="STS.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
