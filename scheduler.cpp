@@ -7,6 +7,7 @@
 
 using namespace std
 
+/*
 void scheduler::getdata(){
   int i, n;
   cout<<"Enter how many proceses you want to do.";
@@ -15,22 +16,30 @@ void scheduler::getdata(){
     cout<<"Enter the burst time for the proceses."
   }
 }
-
-bool CheckRam(jobsize, ram spot){
+*/
+bool scheguler::CheckRam(jobsize, ram spot){
   
   if (jobsize<= ram.size-ram spot){
-   // store job in ram 
+	 // store job in ram 
    
-   //store physical address in PCB of start & end of job
-				
-				//store start address in base register
-				
-				//currect disk address=[i+1]
-			else{
-			//	currect disk address=[i]
-			}
+	 //store physical address in PCB of start & end of job
+	
+	//store start address in base register
+	
+	//currect disk address=[i+1]
+	
+	
+	else{
+		//currect disk address=[i]
+	
+	
+	}
   }
-  
-  
-  
 }
+
+int scheduler::getPriority(){
+	
+	
+	
+}
+
