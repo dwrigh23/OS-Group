@@ -8,4 +8,9 @@
 using namespace std
 
 //send process to CPU
+/*
+get(param data from PCB)
+		set(CPU's program counter)
+		set(registers)
+*/
 
