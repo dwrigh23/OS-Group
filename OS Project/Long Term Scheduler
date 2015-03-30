@@ -21,7 +21,7 @@ void fifo(int JobID){ //First in first out
 		 ReadyQ[i]= ProcessQ[i];
 	  }
 void  Priority(int priority, int JobID){ //Priority 
-		 for(int i= next processs; i<= PCB.pcbvect; i++:)// put all process in the Process Q to be sorted
+		 for(int i= nextprocesss; i<= PCB.pcbvect; i++:)// put all process in the Process Q to be sorted
 		 {
 			 ProcessQ[i]= PCB.pcbvect[i];
 			 int PQsize=ProcessQ.size();
