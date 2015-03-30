@@ -188,7 +188,6 @@ void CPU::branchFormat(string binary){
 	case 010110:  //010110(2) = 16(16), Instruction: BNE
 		if (cpu.registers[b_reg] != cpu.registers[d_reg]){
 			testRam.currentIndex = (address / 4);
-			
 		}
 		break;
 	case 010111:  //010111(2) = 17(16), Instruction: BEZ
@@ -215,7 +214,8 @@ void CPU::branchFormat(string binary){
 		cpu.registers[address] += cpu.registers[d_reg];
 		break;
 	case 000011: //000011(2) = 3(16), Instruction: LW
-		
+		//Add content of address to base reg, then store that in the destination register
+		cpu.registers[d_reg] = cpu.registers[address + cpu.registers[b_reg]];
 		break;
 	}
 };

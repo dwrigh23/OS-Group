@@ -13,7 +13,7 @@ int RAM::getSpaceRemaining(){
 }
 
 int RAM::getCurrentFill(){
-	return testRam.currentFill / 1024;	//current element count
+	return testRam.currentFill / 1024;	//Returns percent of filled locations in RAM
 }
 
 void RAM::resetRam(){
@@ -34,11 +34,10 @@ bool RAM::jobCanFit(){
 	if (testRam.getSpaceRemaining() - (currentIndex + (pcb.endDisk - pcb.startDisk)) >= 0){
 		return true;
 	}
-	else
-	{
+	else{
 		return false;
 	}
-}
+};
 
 void RAM::writeRam(vector<string> instructions){
 	int i = 0, counter = 0;
@@ -67,7 +66,7 @@ void RAM::writeRam(vector<string> instructions){
 	}
 	pcb.endRam = currentIndex;
 	pcb.dataEndRam = currentIndex;
-}
+};
 
 void RAM::writeRamLocation(vector<string> instructions, int startIndex){
 	currentIndex = startIndex;
@@ -75,6 +74,7 @@ void RAM::writeRamLocation(vector<string> instructions, int startIndex){
 	while (instructions[i] != ""){
 		if (counter == 0){
 			pcb.startRam = currentIndex;
+			pcb.dataStartRam = pcb.startRam + (pcb.codeSize + 1);
 		}
 
 		if (startIndex > -1 && startIndex < testRam.maxFill){
@@ -93,4 +93,5 @@ void RAM::writeRamLocation(vector<string> instructions, int startIndex){
 		}
 	}
 	pcb.endRam = currentIndex;
+	pcb.dataEndRam = currentIndex;
 };
