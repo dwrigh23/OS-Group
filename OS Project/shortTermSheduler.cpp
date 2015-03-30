@@ -6,6 +6,6 @@
 
 using namespace std
 
-//send process to Ram
+//send process to Ram from the processQ in the scheduler
 
 
