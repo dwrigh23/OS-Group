@@ -19,6 +19,9 @@ public:
 	//Job location indexes
 	int startDisk, endDisk, startRam, endRam;
 
+	//Data Properties
+	int dataStartDisk, dataEndDisk, dataStartRam, dataEndRam;
+
 	//Reserved process states
 	enum processStatus { 
 		error, 
@@ -31,8 +34,9 @@ public:
 	//Called for PCB use
 	processStatus processState;
 
-	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
+	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk, int dataStartDisk, int dataEndDisk);
 
+	int dataSize(int dataStartDisk, int dataEndDisk);
 };
 PCB pcb;
 #endif

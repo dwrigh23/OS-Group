@@ -5,7 +5,11 @@
 
 void Disk::loader(){
 	std::string line;
-	int i = 0, id, codeSize, priority, inBuff, outBuff, tempBuff, startIndex, endIndex;
+	//Temp Variable
+	int i = 0;
+
+	//Attribute variables
+	int id, codeSize, priority, inBuff, outBuff, tempBuff, startIndex, endIndex, dataStartDisk, dataEndDisk;
 
 	//File containing instructions and control cards
 	std::ifstream input_file("Program-File.txt");
@@ -33,10 +37,12 @@ void Disk::loader(){
 				line.erase(0, 7);
 				std::istringstream iss(line);
 				iss >> std::hex >> inBuff >> std::hex >> outBuff >> std::hex >> tempBuff; //Extract DCC values
+				dataStartDisk = i;
 			}
 			else if (line.at(3) == 'E'){
-				endIndex = i;	
-				pcb.createPCB(id, codeSize, priority, startIndex, endIndex);
+				endIndex = i;
+				dataEndDisk = i;
+				pcb.createPCB(id, codeSize, priority, startIndex, endIndex, dataStartDisk, dataEndDisk);
 			}
 		}
 		else

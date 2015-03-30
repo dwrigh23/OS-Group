@@ -43,7 +43,6 @@ void RAM::writeRam(vector<string> instructions){
 					testRam.memory[currentIndex] = instructions[i];
 					currentIndex++, i++, counter++;
 				}
-				//need to track start/end pos
 				else{
 					while (testRam.memory[currentIndex] != ""){
 						currentIndex++;
@@ -71,7 +70,6 @@ void RAM::writeRamLocation(vector<string> instructions, int startIndex){
 				testRam.memory[currentIndex] = instructions[i];
 				currentIndex++, i++, counter++;
 			}
-			//need to track start/end pos
 			else{
 				while (testRam.memory[currentIndex] != ""){
 					currentIndex++;
