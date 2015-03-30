@@ -149,8 +149,10 @@ void CPU::branchFormat(string binary){
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
-	int address = stoi(binary.substr(16, 16), nullptr, 2); //For Branch, it is divided by 4 because, in byte addressing, a word uses 4 bytes.
-			//Therefore, using word alignment, we can only access addresses that are divisible by 4.
+	int address = stoi(binary.substr(16, 16), nullptr, 2); 
+	
+	//For Branch, it is divided by 4 because, in byte addressing, a word uses 4 bytes.
+	//Therefore, using word alignment, we can only access addresses that are divisible by 4.
 	switch (opcode)
 	{
 	case 001011:  // 001011(2) = 0B(16), Instruction: MOVI
