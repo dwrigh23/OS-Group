@@ -237,7 +237,7 @@ void CPU::jumpFormat(string binary){
 		cout << "Halt command encountered." << endl;
 		break;
 	case 010100: //JMP
-		cpu.programCounter = (address);
+		testRam.currentIndex = (address);
 		break;
 	default:
 		break;

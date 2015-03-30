@@ -3,7 +3,8 @@
 //OS Project
 #include "PCB.h"
 
-void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk, int dataStartDisk, int dataEndDisk){
+
+void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk){
 	PCB pcb;
 
 	jobID = pcb.jobID;
@@ -11,8 +12,8 @@ void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int en
 	priority = pcb.priority;
 	startDisk = pcb.startDisk;
 	endDisk = pcb.endDisk;
-	dataStartDisk = pcb.dataStartDisk;
-	dataEndDisk = pcb.dataEndDisk;
+	pcb.dataStartDisk = pcb.endDisk - pcb.codeSize;
+	pcb.dataEndDisk = pcb.endDisk;
 
 	pcb.programCounter = 0;
 	pcb.processState = pcb.created;
@@ -20,6 +21,4 @@ void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int en
 	pcb.pcbVec.push_back(pcb);
 };
 
-int dataSize(int dataStartDisk, int dataEndDisk){
-	return (dataEndDisk - dataStartDisk);
-};
+

@@ -37,6 +37,8 @@ public:
 
 	//Returns percent of filled locations in RAM
 	int getCurrentFill();
+
+	bool jobCanFit();
 };
 RAM testRam;
 

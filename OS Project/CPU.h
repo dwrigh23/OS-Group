@@ -20,7 +20,6 @@ public:
 	int registers[16];
 	const int accumulator = 0;
 	const int zero_reg = 1;
-	int programCounter = 0;
 
 	//Retrieve an instruction from the disk
 	vector<string> fetch(PCB currentProc);

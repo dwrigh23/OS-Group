@@ -34,9 +34,7 @@ public:
 	//Called for PCB use
 	processStatus processState;
 
-	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk, int dataStartDisk, int dataEndDisk);
-
-	int dataSize(int dataStartDisk, int dataEndDisk);
+	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
 };
 PCB pcb;
 #endif
