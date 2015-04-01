@@ -67,6 +67,7 @@
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="disk.cpp" />
     <ClCompile Include="LongTermScheduler.cpp" />
+    <ClCompile Include="PCB.cpp" />
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="tester.cpp" />
   </ItemGroup>
