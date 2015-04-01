@@ -5,8 +5,8 @@
 #include <vector>
 
 class LongTermScheduler{
-	vector<PCB> ProcessQ;
 	vector<PCB> ReadyQ;
+	
 	int nextprocess = 0;
 
 	void fifo(int jobID);
