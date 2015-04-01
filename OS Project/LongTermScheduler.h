@@ -1,6 +1,7 @@
 #ifndef LONGETERMSCHEDULER_H
 #define LONGTERMSCHEDULER_H
 #include "PCB.h"
+#include "RAM.h"
 #include <vector>
 
 class LongTermScheduler{
