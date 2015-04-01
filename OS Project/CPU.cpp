@@ -5,6 +5,7 @@
 #include <bitset>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 vector<string> CPU::fetch(PCB currentProc){
 	//-get current instance of pcb from ready queue(vector)
@@ -255,8 +256,9 @@ void CPU::ioFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong;
-	string outputBuffer = to_string(cpu.registers[0]);
-
+	int writeReg;
+	istringstream iss;
+	string readContent, writeContent;
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int reg_1 = stoi(binary.substr(8, 4), nullptr, 2);
@@ -266,9 +268,14 @@ void CPU::ioFormat(string binary){
 	switch (opcode){
 	
 	case 000000: //RD, Reads content of the input buffer into the accumulator
-
+		address = pcb.startRam + (address / 4);
+		readContent = testRam.memory[address];
+		cpu.registers[accumulator] += stoi(readContent, nullptr, 16);
 	case 000001: //WR, Writes the content of the accumulator into the output buffer
-		cout << "Output buffer contains: " << outputBuffer << endl;
+		address = pcb.startRam + (address / 4);
+		writeReg = cpu.registers[accumulator];
+		iss >> std::dec >> writeReg;
+		testRam.memory[address] = writeReg;
 	default: break;
 	}
 };

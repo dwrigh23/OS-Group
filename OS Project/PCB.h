@@ -22,6 +22,9 @@ public:
 	//Data Properties
 	int dataStartDisk, dataEndDisk, dataStartRam, dataEndRam;
 
+	//Timer variables
+	double executeTime, waitTime;
+
 	//Reserved process states
 	enum processStatus { 
 		error, 

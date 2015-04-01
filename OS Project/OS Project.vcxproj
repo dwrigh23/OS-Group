@@ -66,12 +66,14 @@
   <ItemGroup>
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="disk.cpp" />
+    <ClCompile Include="LongTermScheduler.cpp" />
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="tester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU.h" />
     <ClInclude Include="disk.h" />
+    <ClInclude Include="LongTermScheduler.h" />
     <ClInclude Include="PCB.h" />
     <ClInclude Include="RAM.h" />
   </ItemGroup>
