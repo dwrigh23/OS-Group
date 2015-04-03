@@ -44,7 +44,7 @@ while(testRAM.getSpaceRemaining() != 1024)
 //################################################################################################
 //################################################################################################
 //################################################################################################
-
+/*
 
 void fifo(int JobID){ //First in first out          ******is passing the JobID correct???***** pcbVec.size()
 	for(int i = nextprocess; i <= 30; i++;){ // just put all the processes into the ReadyQ to be passes off.
@@ -70,3 +70,4 @@ void Priority(int priority, int JobID){ //Priority
 		} 
 	 }
 }
+*/
