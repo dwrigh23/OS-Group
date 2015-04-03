@@ -4,9 +4,7 @@
 
 using namespace std;
 
-int left = 0;
-
-void vectorPartition(vector<string> PCBVector, int left, int right)
+void vectorPartition(vector<PCB> PCBVector, int left, int right)
 {
 	int pivot = PCBVector[left].priority;
 	int i = left;
@@ -23,8 +21,11 @@ void vectorPartition(vector<string> PCBVector, int left, int right)
 	swap(PCBVector[i], PCBVector[left]);
 }
 
-void priorityFifoSort(vector<string> PCBVector, int left, int right)
+void priorityFifoSort(vector<PCB> PCBVector)
 {
+	int left = 0;
+	int right = PCBVector.size();
+	
 	if(left < right)
 	{
 		int vector = vectorPartition(PCBVector, left, right);
