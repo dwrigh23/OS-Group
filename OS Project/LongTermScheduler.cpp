@@ -11,7 +11,7 @@ void vectorPartition(vector<PCB> PCBVector, int left, int right)
 	
 	for(int j = left + 1; i < PCBVector.size(); j++)
 	{
-		if (PCBVector[j].priority < = pivot)
+		if (PCBVector[j].priority <= pivot)
 		{
 			i = i + 1;
 			swap(PCBVector[i], PCBVector[j]);
@@ -35,9 +35,9 @@ void priorityFifoSort(vector<PCB> PCBVector)
 	}
 }
 
-while(testRAM.getSpaceRemaining() != 1024)
+while(testRam.getSpaceRemaining() != 1024)
 {
-	PCBVector.writeRAM(); 
+	PCBVector.writeRam(); 
 }
 
 //################################################################################################

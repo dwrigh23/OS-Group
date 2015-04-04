@@ -92,12 +92,13 @@ void CPU::execute(string binary){
 void CPU::arithmeticFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
-	int opcode = oc.to_ulong;
+	int opcode = oc.to_ulong();
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int src_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int src_reg2 = stoi(binary.substr(12, 4), nullptr, 2);
 	int dest_reg = stoi(binary.substr(16, 4), nullptr, 2);
+	int temp;
 
 	//using switch for opcode as suggested in specs
 	switch (opcode){
@@ -123,11 +124,11 @@ void CPU::arithmeticFormat(string binary){
 		}
 		break;
 	case 001001:  //001001(2) = 09(16), Instruction: AND
-		int temp = src_reg & src_reg2;
+		temp = src_reg & src_reg2;
 		cpu.registers[dest_reg] = temp;
 		break;
 	case 001010:  //001010(2) = 0A(16), Instruction: OR
-		int temp = src_reg | src_reg2;
+		temp = src_reg | src_reg2;
 		cpu.registers[dest_reg] = temp;
 		break;
 	case 010000:  //010000(2) = 10(16), Instruction: SLT
@@ -148,7 +149,7 @@ void CPU::arithmeticFormat(string binary){
 void CPU::branchFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
-	int opcode = oc.to_ulong;
+	int opcode = oc.to_ulong();
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
@@ -231,7 +232,7 @@ void CPU::branchFormat(string binary){
 void CPU::jumpFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
-	int opcode = oc.to_ulong;
+	int opcode = oc.to_ulong();
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int address = stoi(binary.substr(8, 24), nullptr, 2);
@@ -255,7 +256,7 @@ void CPU::jumpFormat(string binary){
 void CPU::ioFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
-	int opcode = oc.to_ulong;
+	int opcode = oc.to_ulong();
 	int writeReg;
 	istringstream iss;
 	string readContent, writeContent;
