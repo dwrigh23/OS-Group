@@ -15,7 +15,7 @@ int startDisk = pcb.startDisk;
 int endDisk = pcb.endDisk;
 int currentindex;
 
-Void PassJob(Vector<> Jobs)
+Void Dispatcher::PassJob(Vector<> Jobs)
 {
 	currentindex = 0;   // use this to remember what index it is at, for when we do context switching or cant pass job to RAM
 	
