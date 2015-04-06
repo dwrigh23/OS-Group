@@ -21,7 +21,7 @@ void LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int rig
 	swap(PCBVector[i], PCBVector[left]);
 }
 
-void LongTermScheduler::priorityFifoSort(vector<PCB> PCBVector)
+void LongTermScheduler::prioritySort(vector<PCB> PCBVector)
 {
 	int left = 0;
 	int right = PCBVector.size();
@@ -30,8 +30,8 @@ void LongTermScheduler::priorityFifoSort(vector<PCB> PCBVector)
 	{
 		PCB vector = vectorPartition(PCBVector, left, right);
 		
-		priorityFifoSort(PCBVector, left, vector);
-		priorityFiFoSort(PCBVector, vector + 1, right);
+		prioritySort(PCBVector, left, vector);
+		prioritySort(PCBVector, vector + 1, right);
 	}
 }
 
