@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void vectorPartition(vector<PCB> PCBVector, int left, int right)
+void LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int right)
 {
 	int pivot = PCBVector[left].priority;
 	int i = left;
@@ -21,7 +21,7 @@ void vectorPartition(vector<PCB> PCBVector, int left, int right)
 	swap(PCBVector[i], PCBVector[left]);
 }
 
-void priorityFifoSort(vector<PCB> PCBVector)
+void LongTermScheduler::priorityFifoSort(vector<PCB> PCBVector)
 {
 	int left = 0;
 	int right = PCBVector.size();
@@ -45,6 +45,8 @@ while(testRam.getSpaceRemaining() != 1024)
 //################################################################################################
 //################################################################################################
 /*
+
+///Old code that we dont think we need but do not want to get ridd ofjust yet
 
 void fifo(int JobID){ //First in first out          ******is passing the JobID correct???***** pcbVec.size()
 	for(int i = nextprocess; i <= 30; i++;){ // just put all the processes into the ReadyQ to be passes off.
