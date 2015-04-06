@@ -30,7 +30,7 @@ Void PassJob(Vector<> Jobs)
 		enddisk = PCB.pcbVec[currentindex].enddisk;
 
 		//somehow pass this to the CPU
-
+		CPU::fetch(PCB currentProc);
 
 
 
