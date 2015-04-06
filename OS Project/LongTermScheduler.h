@@ -5,14 +5,12 @@
 #include <vector>
 
 class LongTermScheduler{
-	vector<PCB> ReadyQ;
 	
-	int nextprocess = 0;
+	void vectorPartition(vector<PCB> PCBVector, int left, int right);
 
-	void fifo(int jobID);
-
-	void priority(int priority, int jobID);
+	void priorityFifoSort(vector<PCB> PCBVector);
+	
+	void SendtoRam(vector<PCB> PCBVector);
 };
-
 
 #endif
