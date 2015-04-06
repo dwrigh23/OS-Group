@@ -11,7 +11,7 @@ int main(){
 
 	testDisk.loader();
 
-	cpu.decode("0x0123ABC");
+	//cpu.decode("0x0123ABC");
 
 	system("pause");
 }

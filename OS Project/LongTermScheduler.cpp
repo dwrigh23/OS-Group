@@ -28,7 +28,7 @@ void priorityFifoSort(vector<PCB> PCBVector)
 	
 	if(left < right)
 	{
-		int vector = vectorPartition(PCBVector, left, right);
+		PCB vector = vectorPartition(PCBVector, left, right);
 		
 		priorityFifoSort(PCBVector, left, vector);
 		priorityFiFoSort(PCBVector, vector + 1, right);
