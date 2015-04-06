@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void vectorPartition(vector<PCB> PCBVector, int left, int right)
+void LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int right)
 {
 	int pivot = PCBVector[left].priority;
 	int i = left;
@@ -21,7 +21,7 @@ void vectorPartition(vector<PCB> PCBVector, int left, int right)
 	swap(PCBVector[i], PCBVector[left]);
 }
 
-void priorityFifoSort(vector<PCB> PCBVector)
+void LongTermScheduler::priorityFifoSort(vector<PCB> PCBVector)
 {
 	int left = 0;
 	int right = PCBVector.size();
