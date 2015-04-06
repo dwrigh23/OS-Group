@@ -6,9 +6,9 @@
 
 class LongTermScheduler{
 	
-	void vectorPartition(vector<PCB> PCBVector, int left, int right);
+	vector<PCB> vectorPartition(vector<PCB> PCBVector, int left, int right);
 
-	void priorityFifoSort(vector<PCB> PCBVector);
+	vector<PCB> prioritySort(vector<PCB> PCBVector, int left, int right);
 	
 	void SendtoRam(vector<PCB> PCBVector);
 };

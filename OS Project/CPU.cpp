@@ -284,11 +284,11 @@ void CPU::ioFormat(string binary){
 };
 
 void loadCPU(PCB currentProc){
-	vector<string> fetched, decoded;
+	vector<string> temp;
 
-	fetched = cpu.fetch(currentProc);
-	decoded = cpu.decode(fetched);
-	for (int i = 0; i <= decoded.size(); i++){
-		cpu.execute(decoded[i]);
+	temp = cpu.fetch(currentProc);
+	temp = cpu.decode(temp);
+	for (int i = 0; i <= temp.size(); i++){
+		cpu.execute(temp[i]);
 	}
 }
