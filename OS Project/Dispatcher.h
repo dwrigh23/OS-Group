@@ -1,3 +1,4 @@
+#ifndef DISPATCHER_H
 #include <string>
 #include <iostream>
 #include "Dispatcher.h"
@@ -13,8 +14,11 @@ int endDisk = pcb.endDisk;
 int currentindex;
 
 Void PassJob(Vector<> Jobs) // pass it The Job list
-{
-
+{};
+	
+	//Dont think this is necasary for the header file
+	//header should only have declaration I beleive
+/*
 	if (RAM.getSpaceRemaining()) // Asks if there is space avaliable in the RAM
 	{
 
@@ -22,5 +26,6 @@ Void PassJob(Vector<> Jobs) // pass it The Job list
 	else
 	{
 		break; // may be diffrent, but otherwise it waits to be called again and doesnt do anything unless space is avaliable.
-	}
-}
+	}*/
+
+#endif
