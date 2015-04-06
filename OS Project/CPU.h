@@ -21,13 +21,15 @@ public:
 	const int accumulator = 0;
 	const int zero_reg = 1;
 
+	void loadCPU(PCB currentProc);
+
 	//Retrieve an instruction from the disk
 	vector<string> fetch(PCB currentProc);
 
 	//Convert instructions to binary format (Base 16 --> Base 2)
 	//We decided not to include a method convert from bin to hex b/c there's no simple way to implement it
 	//and we are quickly running out of time.
-	string decode(string hex);
+	vector<string> decode(vector<string> &instrList);
 	
 	//Hex to binary "Repository", if you will
 	const char* hexSwitch(char hex);

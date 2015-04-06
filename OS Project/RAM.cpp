@@ -8,8 +8,14 @@
 #include <iostream>
 
 
-int RAM::getSpaceRemaining(){
-	return testRam.maxFill - testRam.currentFill; //Max possible fill - current element count
+int RAM::getSpaceRemaining(){	//Max possible fill - current element count
+	int diff = testRam.maxFill - testRam.currentFill;
+	if (diff > 0){
+		return diff;
+	}
+	else{
+		cout << "RAM is full!" << endl;
+	}
 }
 
 int RAM::getCurrentFill(){

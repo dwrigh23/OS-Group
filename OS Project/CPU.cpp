@@ -27,15 +27,17 @@ vector<string> CPU::fetch(PCB currentProc){
 	return instrList;
 };
 
-//Would passing the instrList from ---^, decoding in a loop, then storing in a new vector to pass to execute be a better method?
-string CPU::decode(string hex){
+vector<string> CPU::decode(vector<string> &instrList){
 	string binary;
-	hex.erase(0, 2);
-	for (int i = 0; i != hex.length(); ++i){
-		binary += hexSwitch(hex[i]);
+	vector<string> decodedInstr;
+	for (int i = 0; i <= instrList.size(); i++){
+		instrList[i].erase(0, 2);
+		for (int j = 0; j != instrList[i].length(); ++j){
+			binary += hexSwitch(instrList[i].at(j));
+		}
+		decodedInstr.push_back(binary);
 	}
-	cout << binary << endl;
-	return binary;
+	return decodedInstr;
 };
 
 const char* CPU::hexSwitch(char hex){
@@ -280,3 +282,13 @@ void CPU::ioFormat(string binary){
 	default: break;
 	}
 };
+
+void loadCPU(PCB currentProc){
+	vector<string> fetched, decoded;
+
+	fetched = cpu.fetch(currentProc);
+	decoded = cpu.decode(fetched);
+	for (int i = 0; i <= decoded.size(); i++){
+		cpu.execute(decoded[i]);
+	}
+}
