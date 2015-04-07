@@ -39,5 +39,4 @@ public:
 
 	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
 };
-PCB pcb;
 #endif
