@@ -3,6 +3,7 @@
 //OS Project
 #ifndef RAM_H 
 #define RAM_H
+#include "PCB.h"
 #include <string>
 #include <vector>
 #include <array>
@@ -27,10 +28,10 @@ public:
 	void freeRamLocation(int startIndex, int endIndex);
 
 	//Populates the array
-	void writeRam(vector<string> instruction);
+	void writeRam(vector<string> instruction, PCB pcb);
 
 	//Populates the array from a specified start position
-	void writeRamLocation(vector<string> instruction, int startIndex);
+	void writeRamLocation(vector<string> instruction, PCB pcb, int startIndex);
 
 	//Returns amount of unpopulated locations in RAM
 	int getSpaceRemaining();
@@ -38,7 +39,7 @@ public:
 	//Returns percent of filled locations in RAM
 	int getCurrentFill();
 
-	bool jobCanFit();
+	bool jobCanFit(PCB pcb);
 };
 RAM testRam;
 
