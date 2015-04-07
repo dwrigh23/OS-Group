@@ -63,7 +63,7 @@ const char* CPU::hexSwitch(char hex){
 };
 
 //Would passing a vector of instructions, executing in a for/while, and incrementing PC as it gets executed be a better method?
-void CPU::execute(string binary){
+void CPU::execute(string binary, PCB &currentProc){
 		string caseBits = binary.substr(0, 2);
 
 		//Case 1: If substring == "00"
@@ -75,17 +75,17 @@ void CPU::execute(string binary){
 		//Case 2: If substring == "01"
 		//Condition branch and immediate format
 		if (caseBits == "01"){
-			branchFormat(binary);
+			branchFormat(binary, currentProc.programCounter);
 		}
 		//Case 3: If substring == "10"
 		//Conditional jump format
 		if (caseBits == "10"){
-			jumpFormat(binary);
+			jumpFormat(binary, currentProc.programCounter);
 		}
 		//Case 4: If substring == "11"
 		//IO instruction format
 		if (caseBits == "11"){
-			ioFormat(binary);
+			ioFormat(binary, currentProc);
 		}
 }
 
@@ -105,16 +105,16 @@ void CPU::arithmeticFormat(string binary){
 	//using switch for opcode as suggested in specs
 	switch (opcode){
 	case 000100:  //000100(2) = 04(16), Instruction: MOV
-		cpu.registers[src_reg] = cpu.registers[src_reg2];
+		registers[src_reg] = registers[src_reg2];
 		break;
 	case 000101:  //000101(2) = 05(16), Instruction: ADD
-		cpu.registers[dest_reg] = cpu.registers[src_reg] + cpu.registers[src_reg2];
+		registers[dest_reg] = registers[src_reg] + registers[src_reg2];
 		break;
 	case 000110:  //000110(2) = 06(16), Instruction: SUB
-		cpu.registers[dest_reg] = cpu.registers[src_reg] - cpu.registers[src_reg2];
+		registers[dest_reg] = registers[src_reg] - registers[src_reg2];
 		break;
 	case 000111:  //000111(2) = 07(16), Instruction: MUL
-		cpu.registers[dest_reg] = cpu.registers[src_reg] * cpu.registers[src_reg2];
+		registers[dest_reg] = registers[src_reg] * registers[src_reg2];
 		break;
 	case 001000:  //001000(2) = 08(16), Instruction: DIV
 		if (src_reg2 == 0){
@@ -122,23 +122,23 @@ void CPU::arithmeticFormat(string binary){
 			return;
 		}
 		else{
-			cpu.registers[dest_reg] = cpu.registers[src_reg] / cpu.registers[src_reg2];
+			registers[dest_reg] = registers[src_reg] / registers[src_reg2];
 		}
 		break;
 	case 001001:  //001001(2) = 09(16), Instruction: AND
 		temp = src_reg & src_reg2;
-		cpu.registers[dest_reg] = temp;
+		registers[dest_reg] = temp;
 		break;
 	case 001010:  //001010(2) = 0A(16), Instruction: OR
 		temp = src_reg | src_reg2;
-		cpu.registers[dest_reg] = temp;
+		registers[dest_reg] = temp;
 		break;
 	case 010000:  //010000(2) = 10(16), Instruction: SLT
-		if (cpu.registers[src_reg] < cpu.registers[src_reg2]){
-			cpu.registers[dest_reg] = 1;
+		if (registers[src_reg] < registers[src_reg2]){
+			registers[dest_reg] = 1;
 		}
 		else{
-			cpu.registers[dest_reg] = 0;
+			registers[dest_reg] = 0;
 		}
 		break;
 	
@@ -148,7 +148,7 @@ void CPU::arithmeticFormat(string binary){
 
 //Case 01, Conditional Brance and Immediate format using "I" type instructions:
 //ST LW MOVI ADDI MULI DIVI LDI SLTI BEQ BNE BEZ BNZ BGS BLZ
-void CPU::branchFormat(string binary){
+void CPU::branchFormat(string binary, int &programCounter){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
@@ -161,26 +161,26 @@ void CPU::branchFormat(string binary){
 	switch (opcode)
 	{
 	case 001011:  // 001011(2) = 0B(16), Instruction: MOVI
-		cpu.registers[d_reg] = address;
+		registers[d_reg] = address;
 		break;
 	case 001100:  //001100(2) = 0C(16), Instruction: ADDI
-		cpu.registers[d_reg] = cpu.registers[b_reg] + address;
+		registers[d_reg] = registers[b_reg] + address;
 		break;
 	case 001101:  //001101(2) = 0D(16), Instruction: MULI
-		cpu.registers[d_reg] += b_reg * (address);
+		registers[d_reg] += b_reg * (address);
 		break;
 	case 001110:  //001110(2) = 0E(16), Instruction: DIVI
-		cpu.registers[d_reg] += b_reg / (address);
+		registers[d_reg] += b_reg / (address);
 		break;
 	case 001111:  //001111(2) = 0F(16), Instruction: LDI
-		cpu.registers[d_reg] = address;
+		registers[d_reg] = address;
 		break;
 	case 010001:  //010001(2) = 11(16), Instruction: SLTI
-		if (cpu.registers[b_reg] < (address)){
-			cpu.registers[d_reg] = 1;
+		if (registers[b_reg] < (address)){
+			registers[d_reg] = 1;
 		}
 		else{
-			cpu.registers[d_reg] = 0;
+			registers[d_reg] = 0;
 		}
 		break;
 
@@ -188,41 +188,41 @@ void CPU::branchFormat(string binary){
 		//process that's currently running. This should be as simple as setting the currentIndex variable of RAM
 		//to the value of (address / 4) since currentIndex acts as the iterator, or programCounter per se.
 	case 010101:  //010101(2) = 15(16), Instruction: BEQ
-		if (cpu.registers[b_reg] == cpu.registers[d_reg]){
-			pcb.programCounter = (address / 4);
+		if (registers[b_reg] == registers[d_reg]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 010110:  //010110(2) = 16(16), Instruction: BNE
-		if (cpu.registers[b_reg] != cpu.registers[d_reg]){
-			pcb.programCounter = (address / 4);
+		if (registers[b_reg] != registers[d_reg]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 010111:  //010111(2) = 17(16), Instruction: BEZ
-		if (cpu.registers[d_reg] == cpu.registers[1]){
-			pcb.programCounter = (address / 4);
+		if (registers[d_reg] == registers[1]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 011000:  //011000(2) = 18(16), Instruction: BNZ
-		if (cpu.registers[d_reg] != cpu.registers[1]){
-			pcb.programCounter = (address / 4);
+		if (registers[d_reg] != registers[1]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 011001:  //011001(2) = 19(16), Instruction: BGZ
-		if (cpu.registers[d_reg] > cpu.registers[1]){
-			pcb.programCounter = (address / 4);
+		if (registers[d_reg] > registers[1]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
-		if (cpu.registers[d_reg] < cpu.registers[1]){
-			pcb.programCounter = (address / 4);
+		if (registers[d_reg] < registers[1]){
+			programCounter = (address / 4);
 		}
 		break;
 	case 000010: //000010(2) = 2(16), Instruction: ST
-		cpu.registers[address] += cpu.registers[d_reg];
+		registers[address] += registers[d_reg];
 		break;
 	case 000011: //000011(2) = 3(16), Instruction: LW
 		//Add content of address to base reg, then store that in the destination register
-		cpu.registers[d_reg] = cpu.registers[address + cpu.registers[b_reg]];
+		registers[d_reg] = registers[address + registers[b_reg]];
 		break;
 
 	default: break;
@@ -231,7 +231,7 @@ void CPU::branchFormat(string binary){
 
 //Case 10, Unconditional Jump format using "J" type instructions:
 //HLT JMP
-void CPU::jumpFormat(string binary){
+void CPU::jumpFormat(string binary, int &programCounter){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
@@ -242,11 +242,10 @@ void CPU::jumpFormat(string binary){
 	switch (opcode)
 	{
 	case 010010:  //HLT
-		cpu.thisProcess.processState = thisProcess.terminated;
 		cout << "Halt command encountered." << endl;
 		break;
 	case 010100: //JMP
-		pcb.programCounter = (address);
+		programCounter = (address);
 		break;
 
 	default: break;
@@ -255,7 +254,7 @@ void CPU::jumpFormat(string binary){
 
 //Case 11, Input/Output format using "IO" type instructions:
 //RD WR
-void CPU::ioFormat(string binary){
+void CPU::ioFormat(string binary, PCB &currentProc){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
@@ -271,24 +270,24 @@ void CPU::ioFormat(string binary){
 	switch (opcode){
 	
 	case 000000: //RD, Reads content of the input buffer into the accumulator
-		address = pcb.startRam + (address / 4);
+		address = currentProc.startRam + (address / 4);
 		readContent = testRam.memory[address];
-		cpu.registers[accumulator] += stoi(readContent, nullptr, 16);
+		registers[accumulator] += stoi(readContent, nullptr, 16);
 	case 000001: //WR, Writes the content of the accumulator into the output buffer
-		address = pcb.startRam + (address / 4);
-		writeReg = cpu.registers[accumulator];
+		address = currentProc.startRam + (address / 4);
+		writeReg = registers[accumulator];
 		iss >> std::dec >> writeReg;
 		testRam.memory[address] = writeReg;
 	default: break;
 	}
 };
 
-void loadCPU(PCB currentProc){
+void CPU::loadCPU(PCB currentProc){
 	vector<string> temp;
 
-	temp = cpu.fetch(currentProc);
-	temp = cpu.decode(temp);
-	for (int i = 0; i <= temp.size(); i++){
-		cpu.execute(temp[i]);
+	temp = fetch(currentProc);
+	temp = decode(temp);
+	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
+		execute(temp[currentProc.programCounter], currentProc);
 	}
 }
