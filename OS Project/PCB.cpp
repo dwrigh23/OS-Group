@@ -12,5 +12,5 @@ void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int en
 	pcb.programCounter = 0;
 	pcb.processState = pcb.created;
 
-	pcb.pcbVec.push_back(pcb);
+	pcbVec.push_back(pcb);
 };
