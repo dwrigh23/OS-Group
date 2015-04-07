@@ -14,8 +14,6 @@ private:
 	
 	
 public:
-	PCB thisProcess;
-
 	//array of 16 "registers"
 	int registers[16];
 	const int accumulator = 0;
@@ -35,7 +33,7 @@ public:
 	const char* hexSwitch(char hex);
 
 	//Analyze and decode instruction that has been converted from Hex to Binary
-	void execute(string binary);
+	void execute(string binary, PCB &pcb);
 
 	//Case 00, register transfer using 2 sources and 1 destination
 	//so this uses the "R" type instructions of: MOV ADD SUB MUL DIV AND OR SLT
@@ -43,16 +41,16 @@ public:
 
 	//Case 01, Conditional Brance and Immediate format using "I" type instructions:
 	//ST LW MOVI ADDI MULI DIVI LDI SLTI BEQ BNE BEZ BNZ BGS BLZ
-	void branchFormat(string binary);
+	void branchFormat(string binary, int &programCounter);
 
 	//Case 10, Unconditional Jump format using "J" type instructions:
 	//HLT JMP
-	void jumpFormat(string binary);
+	void jumpFormat(string binary, int &programCounter);
 
 	//Case 11, Input/Output format using "IO" type instructions:
 	//RD WR
-	void ioFormat(string binary);
+	void ioFormat(string binary, PCB &currentProc);
 };
-CPU cpu;
+
 
 #endif
