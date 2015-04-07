@@ -36,7 +36,7 @@ void RAM::freeRamLocation(int startIndex, int endIndex){
 	}
 };
 
-bool RAM::jobCanFit(){
+bool RAM::jobCanFit(PCB pcb){
 	if (testRam.getSpaceRemaining() - (currentIndex + (pcb.endDisk - pcb.startDisk)) >= 0){
 		return true;
 	}
@@ -45,7 +45,7 @@ bool RAM::jobCanFit(){
 	}
 };
 
-void RAM::writeRam(vector<string> instructions){
+void RAM::writeRam(vector<string> instructions, PCB pcb){
 	int i = 0, counter = 0;
 	while (instructions[i] != ""){
 		if (counter == 0){
@@ -74,7 +74,7 @@ void RAM::writeRam(vector<string> instructions){
 	pcb.dataEndRam = currentIndex;
 };
 
-void RAM::writeRamLocation(vector<string> instructions, int startIndex){
+void RAM::writeRamLocation(vector<string> instructions, PCB pcb, int startIndex){
 	currentIndex = startIndex;
 	int i = 0, counter = 0;
 	while (instructions[i] != ""){
