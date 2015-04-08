@@ -7,7 +7,6 @@
 #include <array>
 #include <iostream>
 
-
 int RAM::getSpaceRemaining(){	//Max possible fill - current element count
 	int diff = testRam.maxFill - testRam.currentFill;
 	if (diff > 0){

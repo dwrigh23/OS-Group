@@ -42,7 +42,7 @@ void Disk::loader(){
 			else if (line.at(3) == 'E'){
 				endIndex = i;
 				dataEndDisk = i;
-				pcb.createPCB(id, codeSize, priority, startIndex, endIndex);
+				PCB().createPCB(id, codeSize, priority, startIndex, endIndex);
 			}
 		}
 		else

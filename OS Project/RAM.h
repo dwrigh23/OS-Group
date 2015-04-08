@@ -41,6 +41,6 @@ public:
 
 	bool jobCanFit(PCB pcb);
 };
-RAM testRam;
+extern RAM testRam;
 
 #endif

@@ -284,7 +284,6 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 
 void CPU::loadCPU(PCB currentProc){
 	vector<string> temp;
-
 	temp = fetch(currentProc);
 	temp = decode(temp);
 	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
