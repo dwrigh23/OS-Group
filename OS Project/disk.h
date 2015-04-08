@@ -12,18 +12,11 @@
 using namespace std;
 
 class Disk
-{
-private:
-	//change to public
-	struct hardDisk
-	{
-		//Changed to new call and shorter length for current use and STDLIB method calls, if needed
-		array<string, 2400> disk;
-	};
-	hardDisk testDisk;
+{	
+public:
+	array<string, 2400> disk;
 
 	int startIndex, endIndex;
-public:
 	//Loads instructions into testDisk string array and creates a pcb instance with
 	//values extracted from the Job and Data Control Cards
 	void Disk::loader();
@@ -31,4 +24,5 @@ public:
 	//Prints testDisk's content
 	void Disk::printDisk();
 };
+Disk testDisk;
 #endif 

@@ -1,4 +1,6 @@
-#include "C:\Users\Aaron\Documents\Visual Studio 2013\Projects\OS Project\OS Project\disk.h"
+#include "disk.h"
+#include "RAM.h"
+#include "PCB.h"
 #include "CPU.h"
 #include <vector>
 #include <iostream>
@@ -7,7 +9,6 @@
 
 int main(){
 	CPU cpu;
-	Disk testDisk;
 
 	testDisk.loader();
 
