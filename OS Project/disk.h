@@ -24,5 +24,5 @@ public:
 	//Prints testDisk's content
 	void Disk::printDisk();
 };
-Disk testDisk;
+extern Disk testDisk;
 #endif 
