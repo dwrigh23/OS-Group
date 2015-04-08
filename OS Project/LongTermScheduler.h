@@ -10,7 +10,7 @@ class LongTermScheduler{
 
 	vector<PCB> prioritySort(vector<PCB> PCBVector, int left, int right);
 	
-	void SendtoRam(vector<PCB> PCBVector);
+	void SendtoRam(vector<string> &instructionList, PCB currentProc);
 };
 
 #endif

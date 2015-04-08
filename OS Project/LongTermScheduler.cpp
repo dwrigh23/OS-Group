@@ -4,8 +4,7 @@
 
 using namespace std;
 
-vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int right)
-{
+vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int right){
 	int pivot = PCBVector[left].priority;
 	int i = left;
 	
@@ -20,8 +19,7 @@ vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, 
 	swap(PCBVector[i], PCBVector[left]);
 }
 
-vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int right)
-{
+vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int right){
 	int left = 0;
 	int right = PCBVector.size();
 	
@@ -32,13 +30,15 @@ vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int
 		prioritySort(PCBVector, left, vector.max_size());
 		prioritySort(PCBVector, left + 1, right);
 	}
+	return PCBVector;
 }
 
-void SendtoRam(vector<PCB> PCBVector)
-{
-	while(testRam.getSpaceRemaining() != 1024)
+//needs to pass pcb instance and instruction vector
+void SendtoRam(vector<string> &instructionList, PCB currentProc){
+	while(testRam.getSpaceRemaining() >= currentProc.codeSize)
 	{
-		PCBVector.writeRam(); 
+		int i = 0;
+		testRam.writeRam(instructionList, currentProc); 
 	}
 }
 
