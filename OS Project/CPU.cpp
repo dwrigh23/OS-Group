@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <chrono>
 
 vector<string> CPU::fetch(PCB currentProc){
 	//-get current instance of pcb from ready queue(vector)
@@ -62,7 +63,6 @@ const char* CPU::hexSwitch(char hex){
 	}
 };
 
-//Would passing a vector of instructions, executing in a for/while, and incrementing PC as it gets executed be a better method?
 void CPU::execute(string binary, PCB &currentProc){
 		string caseBits = binary.substr(0, 2);
 
@@ -284,9 +284,12 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 
 void CPU::loadCPU(PCB currentProc){
 	vector<string> temp;
+	currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
+	currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
 	temp = fetch(currentProc);
 	temp = decode(temp);
 	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
 		execute(temp[currentProc.programCounter], currentProc);
 	}
+	currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 }

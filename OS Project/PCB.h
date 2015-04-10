@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <chrono>
 using namespace std;
 class PCB
 {
@@ -23,7 +24,7 @@ public:
 	int dataStartDisk, dataEndDisk, dataStartRam, dataEndRam;
 
 	//Timer variables
-	double executeTime, waitTime;
+	chrono::high_resolution_clock::time_point startExecuteTime, startWaitTime, endExecuteTime, endWaitTime;
 
 	//Reserved process states
 	enum processStatus { 
@@ -36,6 +37,8 @@ public:
 
 	//Called for PCB use
 	processStatus processState;
+
+	double elapsedTime(chrono::high_resolution_clock::time_point startTime, chrono::high_resolution_clock::time_point endTime);
 
 	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
 };

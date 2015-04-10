@@ -34,11 +34,12 @@ vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int
 }
 
 //needs to pass pcb instance and instruction vector
-void SendtoRam(vector<string> &instructionList, PCB currentProc){
+void sendtoRam(vector<string> &instructionList, PCB currentProc){
 	while(testRam.getSpaceRemaining() >= currentProc.codeSize)
 	{
 		int i = 0;
-		testRam.writeRam(instructionList, currentProc); 
+		testRam.writeRam(instructionList, currentProc);
+		currentProc.startWaitTime = chrono::high_resolution_clock::now();
 	}
 }
 
