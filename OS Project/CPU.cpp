@@ -291,5 +291,6 @@ void CPU::loadCPU(PCB currentProc){
 	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
 		execute(temp[currentProc.programCounter], currentProc);
 	}
+	testRam.freeRamLocation(currentProc.startRam, currentProc.endRam);
 	currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 }
