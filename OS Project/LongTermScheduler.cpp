@@ -23,6 +23,10 @@ vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int
 	int left = 0;
 	int right = PCBVector.size();
 	
+	for(int i = 0; i <= right; i++;){
+		ReadyQ[i]= ProcessQ[i];
+	}
+	
 	if(left < right)
 	{
 		vector<PCB> vector = vectorPartition(PCBVector, left, right);
