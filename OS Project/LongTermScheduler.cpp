@@ -4,37 +4,33 @@
 
 using namespace std;
 
-vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> PCBVector, int left, int right){
-	int pivot = PCBVector[left].priority;
+vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> ReadyQ, int left, int right){
+	int pivot = ReadyQ[left].priority;
 	int i = left;
 	
-	for(int j = left + 1; i < PCBVector.size(); j++)
+	for(int j = left + 1; i < ReadyQ.size(); j++)
 	{
-		if (PCBVector[j].priority <= pivot)
+		if (ReadyQ[j].priority <= pivot)
 		{
 			i = i + 1;
-			swap(PCBVector[i], PCBVector[j]);
+			swap(ReadyQ[i], ReadyQ[j]);
 		}
 	}
-	swap(PCBVector[i], PCBVector[left]);
+	swap(ReadyQ[i], ReadyQ[left]);
 }
 
-vector<PCB> LongTermScheduler::prioritySort(vector<PCB> PCBVector, int left, int right){
+vector<PCB> LongTermScheduler::prioritySort(vector<PCB> ReadyQ, int left, int right){
 	int left = 0;
-	int right = PCBVector.size();
-	
-	for(int i = 0; i <= right; i++;){
-		ReadyQ[i]= ProcessQ[i];
-	}
+	int right = ReadyQ.size();
 	
 	if(left < right)
 	{
-		vector<PCB> vector = vectorPartition(PCBVector, left, right);
+		vector<PCB> vector = vectorPartition(ReadyQ, left, right);
 		
-		prioritySort(PCBVector, left, vector.max_size());
-		prioritySort(PCBVector, left + 1, right);
+		prioritySort(ReadyQ, left, vector.max_size());
+		prioritySort(ReadyQ, left + 1, right);
 	}
-	return PCBVector;
+	return ReadyQ;
 }
 
 //needs to pass pcb instance and instruction vector
