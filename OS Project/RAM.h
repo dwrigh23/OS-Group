@@ -18,11 +18,12 @@ public:
 	array<string, 1024> memory;
 
 	int currentIndex = 0;
-	int currentFill = memory.size();
 	int maxFill = memory.max_size();
 
 	//Erases contents of RAM (the memory array)
 	void resetRam();
+
+	int currentFill();
 
 	//Erases elements through specified start and ending locations
 	void freeRamLocation(int startIndex, int endIndex);
@@ -37,7 +38,7 @@ public:
 	int getSpaceRemaining();
 
 	//Returns percent of filled locations in RAM
-	int getCurrentFill();
+	int getCurrentFillPercent();
 
 	bool jobCanFit(PCB pcb);
 };

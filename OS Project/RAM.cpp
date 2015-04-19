@@ -7,8 +7,10 @@
 #include <array>
 #include <iostream>
 
+RAM testRam;
+
 int RAM::getSpaceRemaining(){	//Max possible fill - current element count
-	int diff = testRam.maxFill - testRam.currentFill;
+	int diff = testRam.maxFill - testRam.currentFill();
 	if (diff > 0){
 		return diff;
 	}
@@ -17,8 +19,12 @@ int RAM::getSpaceRemaining(){	//Max possible fill - current element count
 	}
 }
 
-int RAM::getCurrentFill(){
-	return testRam.currentFill / 1024;	//Returns percent of filled locations in RAM
+int currentFill(){
+	return testRam.memory.size();
+}
+
+int RAM::getCurrentFillPercent(){
+	return testRam.currentFill() / 1024;	//Returns percent of filled locations in RAM
 }
 
 void RAM::resetRam(){

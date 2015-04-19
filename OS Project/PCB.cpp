@@ -11,12 +11,11 @@ double elapsedTime(chrono::high_resolution_clock::time_point startTime, chrono::
 void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk){
 	PCB pcb;
 
-	jobID = pcb.jobID;
-	codeSize = pcb.codeSize;
-	priority = pcb.priority;
-	startDisk = pcb.startDisk;
-	endDisk = pcb.endDisk;
-
+	pcb.jobID = jobID;
+	pcb.codeSize = codeSize;
+	pcb.priority = priority;
+	pcb.startDisk = startDisk;
+	pcb.endDisk = endDisk;
 	pcb.programCounter = 0;
 	pcb.processState = pcb.created;
 

@@ -3,6 +3,8 @@
 //OS Project
 #include "disk.h"
 
+Disk testDisk;
+
 void Disk::loader(){
 	std::string line;
 	//Temp Variable
