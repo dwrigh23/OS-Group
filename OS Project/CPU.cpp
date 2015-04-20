@@ -291,6 +291,7 @@ void CPU::loadCPU(PCB currentProc){
 	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
 		execute(temp[currentProc.programCounter], currentProc);
 	}
-	testRam.freeRamLocation(currentProc.startRam, currentProc.endRam);
 	currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
+	cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
+	cout << "Total execution time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startExecuteTime, currentProc.endExecuteTime);
 }
