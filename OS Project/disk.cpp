@@ -32,7 +32,7 @@ void Disk::loader(){
 			if (line.at(3) == 'J'){
 				line.erase(0, 6);
 				std::istringstream iss(line);
-				iss >> id >> std::hex >> codeSize >> priority;	//Extract JCC values
+				iss >> std::hex >> id >> std::hex >> codeSize >> std::hex >> priority;	//Extract JCC values
 				startIndex = i;
 			}
 			else if (line.at(3) == 'D'){

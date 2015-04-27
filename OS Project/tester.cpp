@@ -8,9 +8,9 @@
 #include <sstream>
 
 int main(){
-	CPU cpu;
+	//CPU cpu;
 
-	//testDisk.loader();
+	testDisk.loader();
 
 	/* THIS IS THE PSEUDO-CODE FOR OUR DRIVER 
 
