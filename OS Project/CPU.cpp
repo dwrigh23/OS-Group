@@ -284,14 +284,14 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 
 void CPU::loadCPU(PCB currentProc){
 	vector<string> temp;
-	currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
-	currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
+	//currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
+	//currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
 	temp = fetch(currentProc);
 	temp = decode(temp);
 	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
 		execute(temp[currentProc.programCounter], currentProc);
 	}
-	currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
-	cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
-	cout << "Total execution time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startExecuteTime, currentProc.endExecuteTime);
+	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
+	//cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
+	//cout << "Total execution time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startExecuteTime, currentProc.endExecuteTime);
 }

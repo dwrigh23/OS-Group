@@ -19,7 +19,7 @@ int RAM::getSpaceRemaining(){	//Max possible fill - current element count
 	}
 }
 
-int currentFill(){
+int RAM::currentFill(){
 	return testRam.memory.size();
 }
 

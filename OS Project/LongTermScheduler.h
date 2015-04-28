@@ -4,13 +4,20 @@
 #include "RAM.h"
 #include <vector>
 
-class LongTermScheduler{
-	
-	vector<PCB> vectorPartition(vector<PCB> PCBVector, int left, int right);
+class LongTermScheduler
+{
+public:
+	//vector<PCB> vectorPartition(vector<PCB> PCBVector, int left, int right);
 
-	vector<PCB> prioritySort(vector<PCB> PCBVector, int left, int right);
-	
+	void fifoSort(vector<PCB>& TempReadyQ, int left, int right);
+
+	void prioritySort(vector<PCB>& TempReadyQ, int left, int right);
+
+	void sjfSort(vector<PCB>& TempReadyQ, int left, int right);
+
+	void printReadyQ();
+
 	void SendtoRam(vector<string> &instructionList, PCB currentProc);
 };
-
+extern LongTermScheduler Sort;
 #endif

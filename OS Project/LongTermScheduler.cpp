@@ -4,75 +4,118 @@
 
 using namespace std;
 
-vector<PCB> LongTermScheduler::vectorPartition(vector<PCB> ReadyQ, int left, int right){
-	int pivot = ReadyQ[left].priority;
-	int i = left;
-	
-	for(int j = left + 1; i < ReadyQ.size(); j++)
-	{
-		if (ReadyQ[j].priority <= pivot)
-		{
-			i = i + 1;
-			swap(ReadyQ[i], ReadyQ[j]);
+LongTermScheduler Sort;
+
+vector<PCB> ReadyQ(30);
+
+void LongTermScheduler::fifoSort(vector<PCB>& TempReadyQ, int left, int right){
+
+	int i = left, j = right;
+	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
+	PCB temp;
+	//use the pivot as a middle point
+	int pivot = TempReadyQ[(left + right) / 2].jobID;
+
+	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
+		while (TempReadyQ[i].jobID < pivot)
+			i++;
+		while (TempReadyQ[j].jobID > pivot)
+			j--;
+		if (i <= j) {
+			temp = TempReadyQ[i];
+			TempReadyQ[i] = TempReadyQ[j];
+			TempReadyQ[j] = temp;
+			i++;
+			j--;
 		}
+
+		//run through the array again recursively to double check that the priority number is in order
+		if (left < j)
+			fifoSort(TempReadyQ, left, j);
+		if (i < right)
+			fifoSort(TempReadyQ, i, right);
 	}
-	swap(ReadyQ[i], ReadyQ[left]);
+	ReadyQ = TempReadyQ;
+
 }
 
-vector<PCB> LongTermScheduler::prioritySort(vector<PCB> ReadyQ, int left, int right){
-	int left = 0;
-	int right = ReadyQ.size();
-	
-	if(left < right)
-	{
-		vector<PCB> vector = vectorPartition(ReadyQ, left, right);
-		
-		prioritySort(ReadyQ, left, vector.max_size());
-		prioritySort(ReadyQ, left + 1, right);
+void LongTermScheduler::prioritySort(vector<PCB>& TempReadyQ, int left, int right){
+
+	int i = left, j = right;
+	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
+	PCB temp;
+	//use the pivot as a middle point
+	int pivot = TempReadyQ[(left + right) / 2].priority;
+
+	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
+		while (TempReadyQ[i].priority < pivot)
+			i++;
+		while (TempReadyQ[j].priority > pivot)
+			j--;
+		if (i <= j) {
+			temp = TempReadyQ[i];
+			TempReadyQ[i] = TempReadyQ[j];
+			TempReadyQ[j] = temp;
+			i++;
+			j--;
+		}
+
+		//run through the array again recursively to double check that the priority number is in order
+		if (left < j)
+			prioritySort(TempReadyQ, left, j);
+		if (i < right)
+			prioritySort(TempReadyQ, i, right);
 	}
-	return ReadyQ;
+
+	ReadyQ = TempReadyQ;
+
 }
 
-//needs to pass pcb instance and instruction vector
+void LongTermScheduler::sjfSort(vector<PCB>& TempReadyQ, int left, int right){
+
+	int i = left, j = right;
+	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
+	PCB temp;
+	//use the pivot as a middle point
+	int pivot = TempReadyQ[(left + right) / 2].codeSize;
+
+	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
+		while (TempReadyQ[i].codeSize < pivot)
+			i++;
+		while (TempReadyQ[j].codeSize > pivot)
+			j--;
+		if (i <= j) {
+			temp = TempReadyQ[i];
+			TempReadyQ[i] = TempReadyQ[j];
+			TempReadyQ[j] = temp;
+			i++;
+			j--;
+		}
+
+		//run through the array again recursively to double check that the priority number is in order
+		if (left < j)
+			sjfSort(TempReadyQ, left, j);
+		if (i < right)
+			sjfSort(TempReadyQ, i, right);
+	}
+	ReadyQ = TempReadyQ;
+}
+
+void LongTermScheduler::printReadyQ(){
+	for (int i = 0; i <= 29; ++i){
+		cout << "ReadyQ[" << i << "] :  jobID: " << ReadyQ[i].jobID << endl;
+		cout << "              codeSize: " << ReadyQ[i].codeSize << endl;
+		cout << "              priority: " << ReadyQ[i].priority << endl;
+		cout << endl;
+	}
+}
+
+
 void sendtoRam(vector<string> &instructionList, PCB currentProc){
-	while(testRam.getSpaceRemaining() >= currentProc.codeSize)
+	while (testRam.getSpaceRemaining() >= currentProc.codeSize)
 	{
 		int i = 0;
-		testRam.writeRam(instructionList, currentProc);
+		testRam.RAM::writeRam(instructionList, currentProc);
 		currentProc.startWaitTime = chrono::high_resolution_clock::now();
 	}
 }
-
-//################################################################################################
-//################################################################################################
-//################################################################################################
-//################################################################################################
-/*
-
-///Old code that we dont think we need but do not want to get ridd ofjust yet
-
-void fifo(int JobID){ //First in first out          ******is passing the JobID correct???***** pcbVec.size()
-	for(int i = nextprocess; i <= 30; i++;){ // just put all the processes into the ReadyQ to be passes off.
-		ProcessQ[i] = pcb.pcbVec[i];       //****** will i=nextprocess work???********
-		ReadyQ[i]= ProcessQ[i];
-	}
-}
-
-void Priority(int priority, int JobID){ //Priority
-	for(int i = nextprocesss; i <= pcb.pcbVec; i++:){// put all process in the Process Q to be sorted
-		ProcessQ[i] = pcb.pcbvect[i];
-		int PQsize = ProcessQ.size();      //does this need to be inside the for loop???
-	} ///nested for loop????
-  
-	for(int i = 0; i<= PQsize;i++){ //attempt to sort the processes based on its priority this may be backwards
-		for (int j = 1; j <= PQsize;j++){
-			int temprocessID;
-			if(ProcessQ[i].priority > ProcessQ[j].priority){ //sorting the vectors, still may be backwards
-				temprocess = ProcessQ[i];
-				ProcessQ[i] = ProcessQ[j];
-				ProcessQ[j] = temprocess;
-				}
-		} 
-	 }
-}
-*/

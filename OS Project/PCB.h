@@ -6,14 +6,17 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <chrono>
+
 using namespace std;
 class PCB
 {
 public:
 	//Storage unit for PCB instances of jobs, better than linked list b/c lower overhead and simple to use
-	vector<PCB> pcbVec;
 
+	vector<PCB> pcbVec2;
 	//Job properties
 	int jobID, codeSize, priority, inBuffer, outBuffer, tempBuffer, programCounter;
 
@@ -27,13 +30,14 @@ public:
 	chrono::high_resolution_clock::time_point startExecuteTime, startWaitTime, endExecuteTime, endWaitTime;
 
 	//Reserved process states
-	enum processStatus { 
-		error, 
-		created, 
-		ready, 
-		waiting, 
-		running, 
-		terminated };
+	enum processStatus {
+		error,
+		created,
+		ready,
+		waiting,
+		running,
+		terminated
+	};
 
 	//Called for PCB use
 	processStatus processState;
@@ -41,5 +45,9 @@ public:
 	double elapsedTime(chrono::high_resolution_clock::time_point startTime, chrono::high_resolution_clock::time_point endTime);
 
 	void createPCB(int jobID, int codeSize, int priority, int startDisk, int endDisk);
+
+	void printPCB();
+
 };
+extern PCB pcbtest;
 #endif

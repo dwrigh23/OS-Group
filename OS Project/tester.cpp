@@ -1,17 +1,19 @@
 #include "disk.h"
 #include "RAM.h"
 #include "PCB.h"
+#include "LongTermScheduler.h"
 #include "CPU.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
+using namespace std;
+
 int main(){
 	//CPU cpu;
 
 	testDisk.loader();
-
 	/* THIS IS THE PSEUDO-CODE FOR OUR DRIVER 
 
 			1. CALL LOADER TO LOAD EVERYTHING INTO DISK AND CREATE PCB VECTOR
@@ -25,6 +27,46 @@ int main(){
 			9. TERMINATE PROGRAM ONCE ALL 30 ARE FINISHED
 		
 	*/
+
+	//vector<PCB> testpcbVec;
+	pcbtest.printPCB();
+
+	cout << endl;
+	cout << "--------Sorting by Priority--------" << endl;
+	system("pause");
+	Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
+	pcbtest.printPCB();
+
+	cout << endl;
+	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
+	system("pause");
+	Sort.printReadyQ();
+	cout << endl;
+
+	cout << "--------Sorting by FIFO--------" << endl;
+	system("pause");
+	Sort.fifoSort(pcbtest.pcbVec2, 0, 29);
+	pcbtest.printPCB();
+	cout << endl;
+
+	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
+	system("pause");
+	Sort.printReadyQ();
+	cout << endl;
+
+	cout << "--------Sorting by SJF--------" << endl;
+	system("pause");
+	Sort.sjfSort(pcbtest.pcbVec2, 0, 29);
+	pcbtest.printPCB();
+	cout << endl;
+
+	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
+	system("pause");
+	Sort.printReadyQ();
+	cout << endl;
+
+
+	//cpu.decode("0x0123ABC");
 
 	system("pause");
 }
