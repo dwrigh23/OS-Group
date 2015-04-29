@@ -17,7 +17,7 @@ public:
 
 	void printReadyQ();
 
-	void SendtoRam(vector<string> &instructionList, PCB currentProc);
-};
+	void sendToRam(vector<string> &instructionList, PCB currentProc);
+}; 
 extern LongTermScheduler Sort;
 #endif

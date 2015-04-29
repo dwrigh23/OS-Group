@@ -15,8 +15,8 @@ class PCB
 {
 public:
 	//Storage unit for PCB instances of jobs, better than linked list b/c lower overhead and simple to use
-
 	vector<PCB> pcbVec2;
+
 	//Job properties
 	int jobID, codeSize, priority, inBuffer, outBuffer, tempBuffer, programCounter;
 

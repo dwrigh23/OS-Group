@@ -11,7 +11,7 @@
 using namespace std;
 
 int main(){
-	//CPU cpu;
+	CPU cpu;
 
 	testDisk.loader();
 	/* THIS IS THE PSEUDO-CODE FOR OUR DRIVER 
@@ -42,31 +42,16 @@ int main(){
 	system("pause");
 	Sort.printReadyQ();
 	cout << endl;
+	
+	//writing first 15 to RAM
+	for (int i = 0; i < 15; i++){
+		//Fetch instructions to write for job
+		//CPU().fetch(ReadyQ[i]);
+		//Write job's instructions to RAM and pass current PCB too for variable saving
+		//Sort.sendToRam(tempVector, ReadyQ[i]);
+	}
 
-	cout << "--------Sorting by FIFO--------" << endl;
-	system("pause");
-	Sort.fifoSort(pcbtest.pcbVec2, 0, 29);
-	pcbtest.printPCB();
-	cout << endl;
-
-	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
-	system("pause");
-	Sort.printReadyQ();
-	cout << endl;
-
-	cout << "--------Sorting by SJF--------" << endl;
-	system("pause");
-	Sort.sjfSort(pcbtest.pcbVec2, 0, 29);
-	pcbtest.printPCB();
-	cout << endl;
-
-	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
-	system("pause");
-	Sort.printReadyQ();
-	cout << endl;
-
-
-	//cpu.decode("0x0123ABC");
+	
 
 	system("pause");
 }

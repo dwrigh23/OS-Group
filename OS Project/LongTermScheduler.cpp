@@ -111,11 +111,11 @@ void LongTermScheduler::printReadyQ(){
 }
 
 
-void sendtoRam(vector<string> &instructionList, PCB currentProc){
+void sendToRam(vector<string> &instructionList, PCB currentProc){
 	while (testRam.getSpaceRemaining() >= currentProc.codeSize)
 	{
-		int i = 0;
-		testRam.RAM::writeRam(instructionList, currentProc);
+		testRam.writeRam(instructionList, currentProc);
 		currentProc.startWaitTime = chrono::high_resolution_clock::now();
 	}
 }
+
