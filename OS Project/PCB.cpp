@@ -4,7 +4,7 @@ using namespace std;
 
 PCB pcbtest;
 
-double elapsedTime(chrono::high_resolution_clock::time_point startTime, chrono::high_resolution_clock::time_point endTime){
+double PCB::elapsedTime(chrono::high_resolution_clock::time_point startTime, chrono::high_resolution_clock::time_point endTime){
 	chrono::duration<double> time_span = chrono::duration_cast<chrono::duration<double>>(endTime - startTime);
 	return time_span.count();
 };

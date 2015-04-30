@@ -6,8 +6,6 @@ using namespace std;
 
 LongTermScheduler Sort;
 
-vector<PCB> ReadyQ(30);
-
 void LongTermScheduler::fifoSort(vector<PCB>& TempReadyQ, int left, int right){
 
 	int i = left, j = right;
@@ -35,7 +33,7 @@ void LongTermScheduler::fifoSort(vector<PCB>& TempReadyQ, int left, int right){
 		if (i < right)
 			fifoSort(TempReadyQ, i, right);
 	}
-	ReadyQ = TempReadyQ;
+	Sort.ReadyQ = TempReadyQ;
 
 }
 
@@ -67,7 +65,7 @@ void LongTermScheduler::prioritySort(vector<PCB>& TempReadyQ, int left, int righ
 			prioritySort(TempReadyQ, i, right);
 	}
 
-	ReadyQ = TempReadyQ;
+	Sort.ReadyQ = TempReadyQ;
 
 }
 
@@ -98,23 +96,39 @@ void LongTermScheduler::sjfSort(vector<PCB>& TempReadyQ, int left, int right){
 		if (i < right)
 			sjfSort(TempReadyQ, i, right);
 	}
-	ReadyQ = TempReadyQ;
+	Sort.ReadyQ = TempReadyQ;
 }
 
 void LongTermScheduler::printReadyQ(){
+	ofstream myfile2;
+	myfile2.open("PrintOutReadyQFile.txt");
+
 	for (int i = 0; i <= 29; ++i){
-		cout << "ReadyQ[" << i << "] :  jobID: " << ReadyQ[i].jobID << endl;
-		cout << "              codeSize: " << ReadyQ[i].codeSize << endl;
-		cout << "              priority: " << ReadyQ[i].priority << endl;
+		cout << "ReadyQ[" << i << "] :  jobID: " << Sort.ReadyQ[i].jobID << endl;
+		cout << "              codeSize: " << Sort.ReadyQ[i].codeSize << endl;
+		cout << "              priority: " << Sort.ReadyQ[i].priority << endl;
 		cout << endl;
+		myfile2 << "ReadyQ[" << i << "] :  jobID: " << Sort.ReadyQ[i].jobID << endl;
+		myfile2 << "              codeSize: " << Sort.ReadyQ[i].codeSize << endl;
+		myfile2 << "              priority: " << Sort.ReadyQ[i].priority << endl;
+		myfile2 << endl;
 	}
+	myfile2.close();
 }
 
+vector<string> LongTermScheduler::getInstructions(PCB currentProc){
+	vector<string> diskFetch;
+	string currentInstr;
+	for (int i = currentProc.startDisk; i <= currentProc.endDisk; i++){
+		currentInstr = testDisk.disk[i];
+		diskFetch.push_back(currentInstr);
+	}
+	return diskFetch;
+}
 
-void sendToRam(vector<string> &instructionList, PCB currentProc){
-	while (testRam.getSpaceRemaining() >= currentProc.codeSize)
-	{
-		testRam.writeRam(instructionList, currentProc);
+void LongTermScheduler::sendtoRam(PCB currentProc){ 
+	if(testRam.getSpaceRemaining() >= currentProc.codeSize){
+		testRam.writeRam(Sort.getInstructions(currentProc), currentProc);
 		currentProc.startWaitTime = chrono::high_resolution_clock::now();
 	}
 }

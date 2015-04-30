@@ -27,10 +27,9 @@ int main(){
 			9. TERMINATE PROGRAM ONCE ALL 30 ARE FINISHED
 		
 	*/
-
-	//vector<PCB> testpcbVec;
 	pcbtest.printPCB();
-
+	pcbtest.pcbVec2.pop_back();
+	
 	cout << endl;
 	cout << "--------Sorting by Priority--------" << endl;
 	system("pause");
@@ -42,16 +41,14 @@ int main(){
 	system("pause");
 	Sort.printReadyQ();
 	cout << endl;
-	
-	//writing first 15 to RAM
-	for (int i = 0; i < 15; i++){
-		//Fetch instructions to write for job
-		//CPU().fetch(ReadyQ[i]);
-		//Write job's instructions to RAM and pass current PCB too for variable saving
-		//Sort.sendToRam(tempVector, ReadyQ[i]);
-	}
 
-	
+	testRam.resetRam();
+	//writing first 15 to RAM
+	for (int i = 0; i < 2; i++){
+		//Fetch instructions to write for job
+		Sort.sendtoRam(Sort.ReadyQ[i]);
+		//Write job's instructions to RAM and pass current PCB too for variable saving
+	}
 
 	system("pause");
 }
