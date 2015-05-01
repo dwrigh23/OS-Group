@@ -14,7 +14,6 @@ class RAM {
 private:
 
 public:
-	//As I have discovered through googling, only array instantiating in this form allows for STDLIB calls
 	array<string, 1024> memory;
 
 	int currentIndex = 0;

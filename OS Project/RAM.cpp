@@ -49,29 +49,17 @@ bool RAM::jobCanFit(PCB pcb){
 void RAM::writeRam(vector<string> instructions, PCB pcb){
 	int i = 0, counter = 0;
 	while(counter < instructions.size() - 1 && testRam.memory[currentIndex] == ""){
-		if (counter == 0){
-			//pcb.startRam = currentIndex;
-			//pcb.dataStartRam = pcb.startRam + (pcb.codeSize + 1);
-		}
-		
 		if (testRam.currentIndex < testRam.memory.max_size() && testRam.currentIndex > -1)
 		{
 			if (testRam.memory[currentIndex] == ""){
 				testRam.memory[currentIndex] = instructions[i];
 				currentIndex++, i++, counter++;
 			}
-			/*else{
-				while (testRam.memory[currentIndex] != ""){
-					currentIndex++;
-				}
-				*/
 			else{
 				cout << "Write failed. RAM is full or index is out of range." << endl;
 			}
 		}
-		}
-	//pcb.endRam = currentIndex;
-	//pcb.dataEndRam = currentIndex;
+	}
 };
 
 void RAM::writeRamLocation(vector<string> instructions, PCB pcb, int startIndex){

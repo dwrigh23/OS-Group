@@ -24,15 +24,6 @@ void PCB::createPCB(int jobID, int codeSize, int priority, int startDisk, int en
 	pcb.processState = pcb.created;
 
 	pcbtest.pcbVec2.push_back(pcb);
-
-
-	/*cout << "from the PCB class >> stored as jobID for pcbVec[" << x << "]: " << pcbVec[x].jobID << endl;
-	cout << "from the PCB class >> stored as codesize for pcbVec[" << x << "]: " << pcbVec[x].codeSize << endl;
-	cout << "from the PCB class >> stored as priority for pcbVec[" << x << "]: " << pcbVec[x].priority << endl;
-
-	cout << endl;
-	system("pause");*/
-
 };
 
 void PCB::printPCB(){
@@ -41,17 +32,6 @@ void PCB::printPCB(){
 		cout << "              codeSize: " << pcbVec2[i].codeSize << endl;
 		cout << "              priority: " << pcbVec2[i].priority << endl;
 		cout << endl;
-		//system("pause");
 	}
-
-
-	/*
-	cout << endl;
-	cout << "pcbVec[27] :  jobID: " << pcbVec[27].jobID << endl;
-	cout << "              codeSize: " << pcbVec[27].codeSize << endl;
-	cout << "              prioority: " << pcbVec[28].priority << endl;
-	cout << endl;
-	*/
-	//Confirmation that loader ran
 	cout << "PCB Printed." << std::endl;
 };

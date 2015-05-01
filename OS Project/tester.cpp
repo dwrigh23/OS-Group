@@ -1,8 +1,9 @@
-#include "disk.h"
-#include "RAM.h"
-#include "PCB.h"
-#include "LongTermScheduler.h"
 #include "CPU.h"
+#include "disk.h"
+#include "Dispatcher.h"
+#include "LongTermScheduler.h"
+#include "PCB.h"
+#include "RAM.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -27,31 +28,20 @@ int main(){
 			9. TERMINATE PROGRAM ONCE ALL 30 ARE FINISHED
 		
 	*/
-	//pcbtest.printPCB();
 	pcbtest.pcbVec2.pop_back();
-	
-	//cout << endl;
-	//cout << "--------Sorting by Priority--------" << endl;
-	//system("pause");
-	Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
-	//pcbtest.printPCB();
 
-	//cout << endl;
-	//cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
-	//system("pause");
-	//Sort.printReadyQ();
-	//cout << endl;
+	Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
+
 	testRam.resetRam();
 	cpu1.resetRegisters();
-	//writing first 15 to RAM
+
+	//Load Processes 0-13
 	for (int i = 0; i < 14; i++){
-		//Fetch instructions to write for job
 		if (i == 0){
 			Sort.ReadyQ[i].startRam = testRam.currentIndex;
 			Sort.sendtoRam(Sort.ReadyQ[i]);
 			Sort.ReadyQ[i].endRam = testRam.currentIndex - 1;
 		}
-		
 		else{
 			Sort.ReadyQ[i].startRam = testRam.currentIndex;
 			Sort.sendtoRam(Sort.ReadyQ[i]);
@@ -59,14 +49,40 @@ int main(){
 		}
 		cout << "Process: " << i << " startRam is: " << Sort.ReadyQ[i].startRam << endl;
 		cout << "Process: " << i << " endRam is: " << Sort.ReadyQ[i].endRam << endl;
-		//Write job's instructions to RAM and pass current PCB too for variable saving
 	}
-
-	//testRam.printRam();
+	
+	//Execute Processes 0-13
 	for (int i = 0; i < 14; i++){
 		cout << "Executing process #" << i << endl;
-		cpu1.loadCPU(Sort.ReadyQ[i]);
+		 dispatch.passJob(Sort.ReadyQ[i], cpu1);
 	}
+
+	//Clear Processes 0-13
+	testRam.resetRam();
+
+	//Load Processes 14-28
+	for (int i = 14; i < 28; i++){
+		if (i == 14){
+			Sort.ReadyQ[i].startRam = testRam.currentIndex;
+			Sort.sendtoRam(Sort.ReadyQ[i]);
+			Sort.ReadyQ[i].endRam = testRam.currentIndex - 1;
+		}
+		else{
+			Sort.ReadyQ[i].startRam = testRam.currentIndex;
+			Sort.sendtoRam(Sort.ReadyQ[i]);
+			Sort.ReadyQ[i].endRam = testRam.currentIndex - 1;
+		}
+		cout << "Process: " << i << " startRam is: " << Sort.ReadyQ[i].startRam << endl;
+		cout << "Process: " << i << " endRam is: " << Sort.ReadyQ[i].endRam << endl;
+	}
+
+	
+	//Execute Processes 14-28
+	for (int i = 14; i < 28; i++){
+		cout << "Executing process #" << i << endl;
+		dispatch.passJob(Sort.ReadyQ[i], cpu1);
+	}
+
 
 	system("pause");
 }

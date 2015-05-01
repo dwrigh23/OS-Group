@@ -179,19 +179,24 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
+	string data;
+	int usableData;
 
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
-	int address = stoi(binary.substr(16, 15), nullptr, 2); //For Branch, it is divided by 4 because, in byte addressing, a word uses 4 bytes.
+	int address = stoi(binary.substr(16, 16), nullptr, 2); //For Branch, it is divided by 4 because, in byte addressing, a word uses 4 bytes.
 			//Therefore, using word alignment, we can only access addresses that are divisible by 4.
 	switch (opcode)
 	{
 	case 11:  // 001011(2) = 0B(16), Instruction: MOVI
 		cout << "OPCODE: MOVI, CONTENTS ADDRESS: " << address << endl;
 		if (address > 1){
-			address = address + currentProc.codeSize;
-			registers[d_reg] = address;
+			address += currentProc.codeSize;
+			data = testRam.memory[address];
+			data = data.substr(2);
+			usableData = stoi(data, nullptr, 16);
+			registers[d_reg] = usableData;
 		}
 		else{
 			registers[d_reg] = address;
@@ -210,7 +215,7 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 		break;
 	case 14:  //001110(2) = 0E(16), Instruction: DIVI
 		cout << "OPCODE: DIVI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
-		registers[d_reg] += b_reg / (address);
+		registers[d_reg] /= address;
 		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
 	case 15:  //001111(2) = 0F(16), Instruction: LDI
@@ -220,7 +225,7 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 		break;
 	case 17:  //010001(2) = 11(16), Instruction: SLTI
 		cout << "OPCODE: MULI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
-		if (registers[b_reg] < (address)){
+		if (registers[b_reg] < address){
 			registers[d_reg] = 1;
 			cout << "RESULT: " << registers[d_reg] << endl;
 		}
@@ -347,8 +352,8 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 
 void CPU::loadCPU(PCB currentProc){
 	vector<string> fetched, decoded;
-	//currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
-	//currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
+	currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
+	currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
 	fetched = fetch(currentProc);
 	cout << "Fetch successful...Decoding now." << endl;
 	decoded = decode(fetched);
@@ -367,6 +372,7 @@ void CPU::loadCPU(PCB currentProc){
 			}
 		}
 	}
+	testRam.currentIndex = 0;
 	cout << "Execute successful." << endl;
 	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 	//cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
