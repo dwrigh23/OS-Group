@@ -19,6 +19,10 @@ public:
 	const int accumulator = 0;
 	const int zero_reg = 1;
 
+	int ConvertToBinary(int n);
+
+	void resetRegisters();
+
 	void loadCPU(PCB currentProc);
 
 	//Retrieve an instruction from the disk
@@ -41,7 +45,7 @@ public:
 
 	//Case 01, Conditional Brance and Immediate format using "I" type instructions:
 	//ST LW MOVI ADDI MULI DIVI LDI SLTI BEQ BNE BEZ BNZ BGS BLZ
-	void branchFormat(string binary, int &programCounter);
+	void branchFormat(string binary, int &programCounter, PCB currentProc);
 
 	//Case 10, Unconditional Jump format using "J" type instructions:
 	//HLT JMP

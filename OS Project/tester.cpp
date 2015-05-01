@@ -41,8 +41,8 @@ int main(){
 	//system("pause");
 	//Sort.printReadyQ();
 	//cout << endl;
-
 	testRam.resetRam();
+	cpu1.resetRegisters();
 	//writing first 15 to RAM
 	for (int i = 0; i < 10; i++){
 		//Fetch instructions to write for job
