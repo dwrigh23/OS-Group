@@ -2,11 +2,14 @@
 //2-28-2015
 //OS Project
 #include "CPU.h"
+#include <iomanip>
 #include <bitset>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <chrono>
+
+using namespace std;
 
 vector<string> CPU::fetch(PCB currentProc){
 	//-get current instance of pcb from ready queue(vector)
@@ -37,6 +40,7 @@ vector<string> CPU::decode(vector<string> &instrList){
 			binary += hexSwitch(instrList[i].at(j));
 		}
 		decodedInstr.push_back(binary);
+		binary = "";
 	}
 	return decodedInstr;
 };
@@ -95,7 +99,7 @@ void CPU::arithmeticFormat(string binary){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
-
+	
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int src_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int src_reg2 = stoi(binary.substr(12, 4), nullptr, 2);
@@ -104,41 +108,58 @@ void CPU::arithmeticFormat(string binary){
 
 	//using switch for opcode as suggested in specs
 	switch (opcode){
-	case 000100:  //000100(2) = 04(16), Instruction: MOV
+	case 100:  //000100(2) = 04(16), Instruction: MOV
+		cout << "OPCODE: MOV, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		registers[src_reg] = registers[src_reg2];
+		cout << "RESULT: " << registers[src_reg] << endl;
 		break;
-	case 000101:  //000101(2) = 05(16), Instruction: ADD
+	case 101:  //000101(2) = 05(16), Instruction: ADD
+		cout << "OPCODE: ADD, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		registers[dest_reg] = registers[src_reg] + registers[src_reg2];
+		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
-	case 000110:  //000110(2) = 06(16), Instruction: SUB
+	case 110:  //000110(2) = 06(16), Instruction: SUB
+		cout << "OPCODE: SUB, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		registers[dest_reg] = registers[src_reg] - registers[src_reg2];
+		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
-	case 000111:  //000111(2) = 07(16), Instruction: MUL
+	case 111:  //000111(2) = 07(16), Instruction: MUL
+		cout << "OPCODE: MUL, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		registers[dest_reg] = registers[src_reg] * registers[src_reg2];
+		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
-	case 001000:  //001000(2) = 08(16), Instruction: DIV
+	case 1000:  //001000(2) = 08(16), Instruction: DIV
+		cout << "OPCODE: DIV, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		if (src_reg2 == 0){
 			cout << "Cannot divide by 0";
 			return;
 		}
 		else{
 			registers[dest_reg] = registers[src_reg] / registers[src_reg2];
+			cout << "RESULT: " << registers[dest_reg] << endl;
 		}
 		break;
-	case 001001:  //001001(2) = 09(16), Instruction: AND
+	case 1001:  //001001(2) = 09(16), Instruction: AND
+		cout << "OPCODE: AND, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		temp = src_reg & src_reg2;
 		registers[dest_reg] = temp;
+		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
-	case 001010:  //001010(2) = 0A(16), Instruction: OR
+	case 1010:  //001010(2) = 0A(16), Instruction: OR
+		cout << "OPCODE: OR, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		temp = src_reg | src_reg2;
 		registers[dest_reg] = temp;
+		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
-	case 010000:  //010000(2) = 10(16), Instruction: SLT
+	case 10000:  //010000(2) = 10(16), Instruction: SLT
+		cout << "OPCODE: SLT, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		if (registers[src_reg] < registers[src_reg2]){
 			registers[dest_reg] = 1;
+			cout << "RESULT: " << registers[dest_reg] << endl;
 		}
 		else{
 			registers[dest_reg] = 0;
+			cout << "RESULT: " << registers[dest_reg] << endl;
 		}
 		break;
 	
@@ -160,69 +181,92 @@ void CPU::branchFormat(string binary, int &programCounter){
 			//Therefore, using word alignment, we can only access addresses that are divisible by 4.
 	switch (opcode)
 	{
-	case 001011:  // 001011(2) = 0B(16), Instruction: MOVI
+	case 1011:  // 001011(2) = 0B(16), Instruction: MOVI
+		cout << "OPCODE: MOVI, CONTENTS ADDRESS: " << address << endl;
 		registers[d_reg] = address;
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
-	case 001100:  //001100(2) = 0C(16), Instruction: ADDI
+	case 1100:  //001100(2) = 0C(16), Instruction: ADDI
+		cout << "OPCODE: ADDI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
 		registers[d_reg] = registers[b_reg] + address;
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
-	case 001101:  //001101(2) = 0D(16), Instruction: MULI
+	case 1101:  //001101(2) = 0D(16), Instruction: MULI
+		cout << "OPCODE: MULI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
 		registers[d_reg] += b_reg * (address);
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
-	case 001110:  //001110(2) = 0E(16), Instruction: DIVI
+	case 1110:  //001110(2) = 0E(16), Instruction: DIVI
+		cout << "OPCODE: DIVI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
 		registers[d_reg] += b_reg / (address);
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
-	case 001111:  //001111(2) = 0F(16), Instruction: LDI
+	case 1111:  //001111(2) = 0F(16), Instruction: LDI
+		cout << "OPCODE: MULI, CONTENTS ADDRESS: " << address << endl;
 		registers[d_reg] = address;
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
-	case 010001:  //010001(2) = 11(16), Instruction: SLTI
+	case 10001:  //010001(2) = 11(16), Instruction: SLTI
+		cout << "OPCODE: MULI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
 		if (registers[b_reg] < (address)){
 			registers[d_reg] = 1;
+			cout << "RESULT: " << registers[d_reg] << endl;
 		}
 		else{
 			registers[d_reg] = 0;
+			cout << "RESULT: " << registers[d_reg] << endl;
 		}
 		break;
 
 		//TODO: CPU doesn't need programcounter, these need to change the location of the program counter of the 
 		//process that's currently running. This should be as simple as setting the currentIndex variable of RAM
 		//to the value of (address / 4) since currentIndex acts as the iterator, or programCounter per se.
-	case 010101:  //010101(2) = 15(16), Instruction: BEQ
+	case 10101:  //010101(2) = 15(16), Instruction: BEQ
+		cout << "OPCODE: BEQ, CONTENTS B_REG: " << registers[b_reg] << " D_REG " << registers[d_reg] << endl;
 		if (registers[b_reg] == registers[d_reg]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 010110:  //010110(2) = 16(16), Instruction: BNE
+	case 10110:  //010110(2) = 16(16), Instruction: BNE
+		cout << "OPCODE: BNE, CONTENTS B_REG: " << registers[b_reg] << " D_REG " << registers[d_reg] << endl;
 		if (registers[b_reg] != registers[d_reg]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 010111:  //010111(2) = 17(16), Instruction: BEZ
+	case 10111:  //010111(2) = 17(16), Instruction: BEZ
+		cout << "OPCODE: BEZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
 		if (registers[d_reg] == registers[1]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 011000:  //011000(2) = 18(16), Instruction: BNZ
+	case 11000:  //011000(2) = 18(16), Instruction: BNZ
+		cout << "OPCODE: BNZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
 		if (registers[d_reg] != registers[1]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 011001:  //011001(2) = 19(16), Instruction: BGZ
+	case 11001:  //011001(2) = 19(16), Instruction: BGZ
+		cout << "OPCODE: BGZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
 		if (registers[d_reg] > registers[1]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 011010:  //011010(2) = 1A(16), Instruction: BLZ
+	case 11010:  //011010(2) = 1A(16), Instruction: BLZ
+		cout << "OPCODE: BLZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
 		if (registers[d_reg] < registers[1]){
 			programCounter = (address / 4);
 		}
 		break;
-	case 000010: //000010(2) = 2(16), Instruction: ST
+	case 10: //000010(2) = 2(16), Instruction: ST
+		cout << "OPCODE: ST, CONTENTS ADDRESS: " << registers[address] << " D_REG " << registers[d_reg] << endl;
 		registers[address] += registers[d_reg];
+		cout << "RESULT: " << registers[address] << endl;
 		break;
-	case 000011: //000011(2) = 3(16), Instruction: LW
+	case 11: //000011(2) = 3(16), Instruction: LW
 		//Add content of address to base reg, then store that in the destination register
+		cout << "OPCODE: LW, CONTENTS ADDRESS: " << address << " B_REG " << b_reg << endl;
 		registers[d_reg] = registers[address + registers[b_reg]];
+		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
 
 	default: break;
@@ -235,16 +279,18 @@ void CPU::jumpFormat(string binary, int &programCounter){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
-
+	
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int address = stoi(binary.substr(8, 24), nullptr, 2);
 
 	switch (opcode)
 	{
-	case 010010:  //HLT
+	case 10010:  //HLT
+		cout << "OPCODE: HLT" << endl;
 		cout << "Halt command encountered." << endl;
 		break;
-	case 010100: //JMP
+	case 10100: //JMP
+		cout << "OPCODE: JMP, CONTENTS ADDRESS: " << address << endl;
 		programCounter = (address);
 		break;
 
@@ -269,11 +315,13 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 
 	switch (opcode){
 	
-	case 000000: //RD, Reads content of the input buffer into the accumulator
+	case 0: //RD, Reads content of the input buffer into the accumulator
+		cout << "OPCODE: RD" << endl;
 		address = currentProc.startRam + (address / 4);
 		readContent = testRam.memory[address];
 		registers[accumulator] += stoi(readContent, nullptr, 16);
-	case 000001: //WR, Writes the content of the accumulator into the output buffer
+	case 1: //WR, Writes the content of the accumulator into the output buffer
+		cout << "OPCODE: WR" << endl;
 		address = currentProc.startRam + (address / 4);
 		writeReg = registers[accumulator];
 		iss >> std::dec >> writeReg;
@@ -283,15 +331,15 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 };
 
 void CPU::loadCPU(PCB currentProc){
-	vector<string> temp;
+	vector<string> fetched, decoded;
 	//currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
 	//currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
-	temp = fetch(currentProc);
+	fetched = fetch(currentProc);
 	cout << "Fetch successful...Decoding now." << endl;
-	temp = decode(temp);
+	decoded = decode(fetched);
 	cout << "Decode succcesful...performing execute." << endl;
-	for (currentProc.programCounter; currentProc.programCounter < temp.size(); currentProc.programCounter++){
-		execute(temp[currentProc.programCounter], currentProc);
+	for (currentProc.programCounter; currentProc.programCounter < decoded.size(); currentProc.programCounter++){
+		execute(decoded[currentProc.programCounter], currentProc);
 	}
 	cout << "Execute successful." << endl;
 	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();

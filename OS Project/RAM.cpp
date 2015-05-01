@@ -50,7 +50,7 @@ void RAM::writeRam(vector<string> instructions, PCB pcb){
 	int i = 0, counter = 0;
 	while(counter < instructions.size() && testRam.memory[currentIndex] == ""){
 		if (counter == 0){
-			pcb.startRam = currentIndex;
+			//pcb.startRam = currentIndex;
 			//pcb.dataStartRam = pcb.startRam + (pcb.codeSize + 1);
 		}
 		
@@ -70,7 +70,7 @@ void RAM::writeRam(vector<string> instructions, PCB pcb){
 			}
 		}
 		}
-	pcb.endRam = currentIndex;
+	//pcb.endRam = currentIndex;
 	//pcb.dataEndRam = currentIndex;
 };
 

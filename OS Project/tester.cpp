@@ -46,14 +46,27 @@ int main(){
 	//writing first 15 to RAM
 	for (int i = 0; i < 10; i++){
 		//Fetch instructions to write for job
-		Sort.sendtoRam(Sort.ReadyQ[i]);
+		if (i == 0){
+			Sort.ReadyQ[i].startRam = testRam.currentIndex;
+			Sort.sendtoRam(Sort.ReadyQ[i]);
+			Sort.ReadyQ[i].endRam = testRam.currentIndex - 1;
+		}
+		
+		else{
+			Sort.ReadyQ[i].startRam = testRam.currentIndex;
+			Sort.sendtoRam(Sort.ReadyQ[i]);
+			Sort.ReadyQ[i].endRam = testRam.currentIndex - 1;
+		}
 		cout << "Process: " << i << " startRam is: " << Sort.ReadyQ[i].startRam << endl;
 		cout << "Process: " << i << " endRam is: " << Sort.ReadyQ[i].endRam << endl;
 		//Write job's instructions to RAM and pass current PCB too for variable saving
 	}
 
 	//testRam.printRam();
-	cpu1.loadCPU(Sort.ReadyQ[0]);
+	for (int i = 0; i < 5; i++){
+		cout << "Executing process #" << i << endl;
+		cpu1.loadCPU(Sort.ReadyQ[i]);
+	}
 
 	system("pause");
 }
