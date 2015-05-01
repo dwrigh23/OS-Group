@@ -90,7 +90,7 @@ void CPU::execute(string binary, PCB &currentProc){
 		//Case 3: If substring == "10"
 		//Conditional jump format
 		if (caseBits == "10"){
-			jumpFormat(binary, currentProc.programCounter);
+			jumpFormat(binary, currentProc.programCounter, currentProc);
 		}
 		//Case 4: If substring == "11"
 		//IO instruction format
@@ -287,7 +287,7 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 
 //Case 10, Unconditional Jump format using "J" type instructions:
 //HLT JMP
-void CPU::jumpFormat(string binary, int &programCounter){
+void CPU::jumpFormat(string binary, int &programCounter, PCB currentProc){
 	//convert opcode into integral type for switch
 	bitset<6> oc(binary.substr(2, 6));
 	int opcode = oc.to_ulong();
@@ -297,15 +297,16 @@ void CPU::jumpFormat(string binary, int &programCounter){
 
 	switch (opcode)
 	{
-	case 10010:  //HLT
+	case 18:  //HLT
+		currentProc.endExecuteTime = chrono::high_resolution_clock::now();
 		cout << "OPCODE: HLT" << endl;
-		cout << "Halt command encountered." << endl;
+		cout << "Halt command encountered. Process finished." << endl;
+		currentProc.processState = currentProc.terminated;
 		break;
-	case 10100: //JMP
+	case 20: //JMP
 		cout << "OPCODE: JMP, CONTENTS ADDRESS: " << address << endl;
-		programCounter = (address);
+		programCounter = address;
 		break;
-
 	default: break;
 	}
 };
@@ -353,8 +354,18 @@ void CPU::loadCPU(PCB currentProc){
 	decoded = decode(fetched);
 	cout << "Decode succcesful...performing execute." << endl;
 	for (currentProc.programCounter; currentProc.programCounter < decoded.size(); currentProc.programCounter++){
-		cout << "Current binary is " << decoded[currentProc.programCounter] << " and i = " << currentProc.programCounter << endl;
-		execute(decoded[currentProc.programCounter], currentProc);
+		if (currentProc.processState == currentProc.terminated){
+			break;
+		}
+		else{ 
+			if (currentProc.programCounter == 0){
+				currentProc.processState = currentProc.running;
+			}
+			else{
+				//cout << "Current binary is " << decoded[currentProc.programCounter] << " and i = " << currentProc.programCounter << endl;
+				execute(decoded[currentProc.programCounter], currentProc);
+			}
+		}
 	}
 	cout << "Execute successful." << endl;
 	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();

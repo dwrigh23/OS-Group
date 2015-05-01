@@ -29,8 +29,6 @@ public:
 	vector<string> fetch(PCB currentProc);
 
 	//Convert instructions to binary format (Base 16 --> Base 2)
-	//We decided not to include a method convert from bin to hex b/c there's no simple way to implement it
-	//and we are quickly running out of time.
 	vector<string> decode(vector<string> &instrList);
 	
 	//Hex to binary "Repository", if you will
@@ -49,7 +47,7 @@ public:
 
 	//Case 10, Unconditional Jump format using "J" type instructions:
 	//HLT JMP
-	void jumpFormat(string binary, int &programCounter);
+	void jumpFormat(string binary, int &programCounter, PCB currentProc);
 
 	//Case 11, Input/Output format using "IO" type instructions:
 	//RD WR

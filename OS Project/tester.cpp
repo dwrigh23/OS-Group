@@ -44,7 +44,7 @@ int main(){
 	testRam.resetRam();
 	cpu1.resetRegisters();
 	//writing first 15 to RAM
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < 14; i++){
 		//Fetch instructions to write for job
 		if (i == 0){
 			Sort.ReadyQ[i].startRam = testRam.currentIndex;
@@ -63,7 +63,7 @@ int main(){
 	}
 
 	//testRam.printRam();
-	for (int i = 0; i < 5; i++){
+	for (int i = 0; i < 14; i++){
 		cout << "Executing process #" << i << endl;
 		cpu1.loadCPU(Sort.ReadyQ[i]);
 	}
