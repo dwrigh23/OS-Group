@@ -11,7 +11,7 @@
 using namespace std;
 
 int main(){
-	CPU cpu;
+	CPU cpu1;
 
 	testDisk.loader();
 	/* THIS IS THE PSEUDO-CODE FOR OUR DRIVER 
@@ -27,28 +27,33 @@ int main(){
 			9. TERMINATE PROGRAM ONCE ALL 30 ARE FINISHED
 		
 	*/
-	pcbtest.printPCB();
+	//pcbtest.printPCB();
 	pcbtest.pcbVec2.pop_back();
 	
-	cout << endl;
-	cout << "--------Sorting by Priority--------" << endl;
-	system("pause");
+	//cout << endl;
+	//cout << "--------Sorting by Priority--------" << endl;
+	//system("pause");
 	Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
-	pcbtest.printPCB();
+	//pcbtest.printPCB();
 
-	cout << endl;
-	cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
-	system("pause");
-	Sort.printReadyQ();
-	cout << endl;
+	//cout << endl;
+	//cout << "-------------- Printing from the ReadyQ inside the long term scheduler------------" << endl;
+	//system("pause");
+	//Sort.printReadyQ();
+	//cout << endl;
 
 	testRam.resetRam();
 	//writing first 15 to RAM
-	for (int i = 0; i < 2; i++){
+	for (int i = 0; i < 10; i++){
 		//Fetch instructions to write for job
 		Sort.sendtoRam(Sort.ReadyQ[i]);
+		cout << "Process: " << i << " startRam is: " << Sort.ReadyQ[i].startRam << endl;
+		cout << "Process: " << i << " endRam is: " << Sort.ReadyQ[i].endRam << endl;
 		//Write job's instructions to RAM and pass current PCB too for variable saving
 	}
+
+	//testRam.printRam();
+	cpu1.loadCPU(Sort.ReadyQ[0]);
 
 	system("pause");
 }

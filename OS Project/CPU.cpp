@@ -31,7 +31,7 @@ vector<string> CPU::fetch(PCB currentProc){
 vector<string> CPU::decode(vector<string> &instrList){
 	string binary;
 	vector<string> decodedInstr;
-	for (int i = 0; i <= instrList.size(); i++){
+	for (int i = 0; i < instrList.size(); i++){
 		instrList[i].erase(0, 2);
 		for (int j = 0; j != instrList[i].length(); ++j){
 			binary += hexSwitch(instrList[i].at(j));
@@ -287,10 +287,13 @@ void CPU::loadCPU(PCB currentProc){
 	//currentProc.endWaitTime = std::chrono::high_resolution_clock::now();
 	//currentProc.startExecuteTime = std::chrono::high_resolution_clock::now();
 	temp = fetch(currentProc);
+	cout << "Fetch successful...Decoding now." << endl;
 	temp = decode(temp);
-	for (currentProc.programCounter; currentProc.programCounter <= temp.size(); currentProc.programCounter++){
+	cout << "Decode succcesful...performing execute." << endl;
+	for (currentProc.programCounter; currentProc.programCounter < temp.size(); currentProc.programCounter++){
 		execute(temp[currentProc.programCounter], currentProc);
 	}
+	cout << "Execute successful." << endl;
 	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 	//cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
 	//cout << "Total execution time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startExecuteTime, currentProc.endExecuteTime);

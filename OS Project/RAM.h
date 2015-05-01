@@ -38,6 +38,8 @@ public:
 	int getCurrentFillPercent();
 
 	bool jobCanFit(PCB pcb);
+
+	void printRam();
 };
 extern RAM testRam;
 
