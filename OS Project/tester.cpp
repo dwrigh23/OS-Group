@@ -42,6 +42,7 @@ int main(){
 	for (int i = 0; i < 15; i++){
 		cout << "Executing process #" << i << endl;
 		 dispatch.passJob(Sort.ReadyQ[i], cpu1);
+		 //Print times here
 	}
 
 	//Clear Processes 0-14
@@ -60,6 +61,7 @@ int main(){
 	for (int i = 15; i < 30; i++){
 		cout << "Executing process #" << i << endl;
 		dispatch.passJob(Sort.ReadyQ[i], cpu1);
+		//Print times here
 	}
 	system("pause");
 }

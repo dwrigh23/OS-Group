@@ -362,6 +362,7 @@ void CPU::loadCPU(PCB currentProc){
 		else{ 
 			if (currentProc.programCounter == 0){
 				currentProc.processState = currentProc.running;
+				execute(decoded[currentProc.programCounter], currentProc);
 			}
 			else{
 				//cout << "Current binary is " << decoded[currentProc.programCounter] << " and i = " << currentProc.programCounter << endl;
@@ -372,6 +373,4 @@ void CPU::loadCPU(PCB currentProc){
 	testRam.currentIndex = 0;
 	cout << "Execute successful." << endl;
 	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
-	//cout << "Total wait time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startWaitTime, currentProc.endWaitTime);
-	//cout << "Total execution time for process #" << currentProc.jobID << "is :" << currentProc.elapsedTime(currentProc.startExecuteTime, currentProc.endExecuteTime);
 }
