@@ -8,94 +8,90 @@ LongTermScheduler Sort;
 
 void LongTermScheduler::fifoSort(vector<PCB>& TempReadyQ, int left, int right){
 
-	int i = left, j = right;
-	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
-	PCB temp;
-	//use the pivot as a middle point
-	int pivot = TempReadyQ[(left + right) / 2].jobID;
+	int i = left;
+	int j = right;
+	
+	int pivot = ((left + right) / 2);
 
-	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
-		while (TempReadyQ[i].jobID < pivot)
+	while (i <= j){ //partition smaller priority to the left of the pivot and larger ID to the right
+		while (TempReadyQ[i].jobID < TempReadyQ[pivot].jobID)
 			i++;
-		while (TempReadyQ[j].jobID > pivot)
+		while (TempReadyQ[j].jobID > TempReadyQ[pivot].jobID)
 			j--;
 		if (i <= j) {
-			temp = TempReadyQ[i];
-			TempReadyQ[i] = TempReadyQ[j];
-			TempReadyQ[j] = temp;
+			swap(TempReadyQ[i], TempReadyQ[j]);
 			i++;
 			j--;
 		}
-
-		//run through the array again recursively to double check that the priority number is in order
-		if (left < j)
-			fifoSort(TempReadyQ, left, j);
-		if (i < right)
-			fifoSort(TempReadyQ, i, right);
 	}
+		//run through the array again recursively to double check that the ID number is in order
+		if (left < j){
+			fifoSort(TempReadyQ, left, j);
+		}
+		if (i < right){
+			fifoSort(TempReadyQ, i, right);
+		}
+	
 	Sort.ReadyQ = TempReadyQ;
-
 }
 
 void LongTermScheduler::prioritySort(vector<PCB>& TempReadyQ, int left, int right){
 
-	int i = left, j = right;
-	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
-	PCB temp;
-	//use the pivot as a middle point
-	int pivot = TempReadyQ[(left + right) / 2].priority;
+	int i = left;
+	int j = right;
+
+	int pivot = ((left + right) / 2);
 
 	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
-		while (TempReadyQ[i].priority < pivot)
+		while (TempReadyQ[i].priority < TempReadyQ[pivot].priority)
 			i++;
-		while (TempReadyQ[j].priority > pivot)
+		while (TempReadyQ[j].priority > TempReadyQ[pivot].priority)
 			j--;
 		if (i <= j) {
-			temp = TempReadyQ[i];
-			TempReadyQ[i] = TempReadyQ[j];
-			TempReadyQ[j] = temp;
+			swap(TempReadyQ[i], TempReadyQ[j]);
 			i++;
 			j--;
 		}
-
-		//run through the array again recursively to double check that the priority number is in order
-		if (left < j)
-			prioritySort(TempReadyQ, left, j);
-		if (i < right)
-			prioritySort(TempReadyQ, i, right);
 	}
+		//run through the array again recursively to double check that the priority number is in order
+		if (left < j){
+			prioritySort(TempReadyQ, left, j);
+		}
+		if (i < right){
+			prioritySort(TempReadyQ, i, right);
+		}
 
 	Sort.ReadyQ = TempReadyQ;
-
 }
 
-void LongTermScheduler::sjfSort(vector<PCB>& TempReadyQ, int left, int right){
+void LongTermScheduler::sjfSort(std::vector<PCB>& TempReadyQ, int left, int right)
+{
+	int i = left;
+	int j = right;
+	int pivot = ((left + right) / 2);
 
-	int i = left, j = right;
-	//cout << i <<" "<< j << " <-- this is printed from the longterm inside prioritysort " << endl;
-	PCB temp;
-	//use the pivot as a middle point
-	int pivot = TempReadyQ[(left + right) / 2].codeSize;
-
-	while (i <= j){ //partition smaller priority to the left of the pivot and larger priority to the right
-		while (TempReadyQ[i].codeSize < pivot)
+	while (i <= j){ //partition smaller priority to the left of the pivot and larger codeSize to the right
+		while (TempReadyQ[i].codeSize < TempReadyQ[pivot].codeSize){
 			i++;
-		while (TempReadyQ[j].codeSize > pivot)
+		}
+		while (TempReadyQ[j].codeSize > TempReadyQ[pivot].codeSize){
 			j--;
-		if (i <= j) {
-			temp = TempReadyQ[i];
-			TempReadyQ[i] = TempReadyQ[j];
-			TempReadyQ[j] = temp;
+		}
+		if (i <= j){
+			swap(TempReadyQ[i], TempReadyQ[j]);
 			i++;
 			j--;
 		}
-
-		//run through the array again recursively to double check that the priority number is in order
-		if (left < j)
-			sjfSort(TempReadyQ, left, j);
-		if (i < right)
-			sjfSort(TempReadyQ, i, right);
 	}
+
+	//run through the array again recursively to double check that the codeSize number is in order
+	if (left < j){
+		sjfSort(TempReadyQ, left, j);
+	}
+	if (i > right){
+		sjfSort(TempReadyQ, i, right);
+	}
+
 	Sort.ReadyQ = TempReadyQ;
 }
 
