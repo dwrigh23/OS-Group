@@ -14,17 +14,33 @@ using namespace std;
 int main(){
 
 
-	
+	ofstream timingData;
+	timingData.open("TimingData.txt");
+
 	CPU cpu1;
+	char response;
 
 	testDisk.loader();
 
-	//cout << "CHOOSE SORTING METHOD: ENTER P FOR PRIORITY, ENTER F FOR FIFO!" << endl;
-
-	//Bandaid on pcbVec because it looks job 30 twice
+	//Bandaid on pcbVec because it loads job 30 twice
 	pcbtest.pcbVec2.pop_back();
 
-	Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
+	cout << "CHOOSE SORTING METHOD: ENTER P FOR PRIORITY SORT, F FOR FIFO SORT, S FOR SHORTEST JOB FIRST!" << endl;
+	cin >> response;
+	putchar(toupper(response));
+
+	switch (response){
+	case 'P':
+		Sort.prioritySort(pcbtest.pcbVec2, 0, 29);
+		break;
+	case 'F':
+		Sort.fifoSort(pcbtest.pcbVec2, 0, 29);
+		break;
+	case 'S':
+		Sort.sjfSort(pcbtest.pcbVec2, 0, 29);
+		break;
+	default:break;
+	}
 
 	testRam.resetRam();
 	cpu1.resetRegisters();
@@ -43,6 +59,8 @@ int main(){
 		cout << "Executing process #" << i << endl;
 		 dispatch.passJob(Sort.ReadyQ[i], cpu1);
 		 //Print times here
+		 timingData << "Elapsed Waiting Time Process: " << i << " is " << Sort.ReadyQ[i].elapsedTime(Sort.ReadyQ[i].startWaitTime, Sort.ReadyQ[i].endWaitTime) << endl;
+		 timingData << "Elapsed Execute Time Process: " << i << " is " << Sort.ReadyQ[i].elapsedTime(Sort.ReadyQ[i].startExecuteTime, Sort.ReadyQ[i].endExecuteTime) << endl;
 	}
 
 	//Clear Processes 0-14
@@ -62,6 +80,8 @@ int main(){
 		cout << "Executing process #" << i << endl;
 		dispatch.passJob(Sort.ReadyQ[i], cpu1);
 		//Print times here
+		timingData << "Elapsed Waiting Time Process: " << i << " is " << Sort.ReadyQ[i].elapsedTime(Sort.ReadyQ[i].startWaitTime, Sort.ReadyQ[i].endWaitTime) << endl;
+		timingData << "Elapsed Execute Time Process: " << i << " is " << Sort.ReadyQ[i].elapsedTime(Sort.ReadyQ[i].startExecuteTime, Sort.ReadyQ[i].endExecuteTime) << endl;
 	}
 	system("pause");
 }

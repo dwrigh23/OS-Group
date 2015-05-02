@@ -18,22 +18,13 @@ void CPU::resetRegisters(){
 }
 
 vector<string> CPU::fetch(PCB currentProc){
-	//-get current instance of pcb from ready queue(vector)
 	string currentInstr;
 	vector<string> instrList;
 
-		//- for (use pcb's ram start location as initial location)
-	//{
-		//-copy instruction from ram location to a vector or array
-			//- increment PC
-			//- iterate thru ram until it reaches pcb's ram end location/reaches pcb.codesize
-	//}
 	for (int i = currentProc.startRam; i <= currentProc.endRam; i++){
 		currentInstr = testRam.memory[i];
 		instrList.push_back(currentInstr);
 	}
-
-	//-return the list of instructions
 	return instrList;
 };
 
@@ -182,8 +173,7 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int b_reg = stoi(binary.substr(8, 4), nullptr, 2);
 	int d_reg = stoi(binary.substr(12, 4), nullptr, 2);
-	int address = stoi(binary.substr(16, 16), nullptr, 2); //For Branch, it is divided by 4 because, in byte addressing, a word uses 4 bytes.
-			//Therefore, using word alignment, we can only access addresses that are divisible by 4.
+	int address = stoi(binary.substr(16, 16), nullptr, 2); 
 	switch (opcode)
 	{
 	case 11:  // 001011(2) = 0B(16), Instruction: MOVI
@@ -232,9 +222,6 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 		}
 		break;
 
-		//TODO: CPU doesn't need programcounter, these need to change the location of the program counter of the 
-		//process that's currently running. This should be as simple as setting the currentIndex variable of RAM
-		//to the value of (address / 4) since currentIndex acts as the iterator, or programCounter per se.
 	case 21:  //010101(2) = 15(16), Instruction: BEQ
 		cout << "OPCODE: BEQ, CONTENTS B_REG: " << registers[b_reg] << " D_REG " << registers[d_reg] << endl;
 		if (registers[b_reg] == registers[d_reg]){
@@ -365,12 +352,11 @@ void CPU::loadCPU(PCB currentProc){
 				execute(decoded[currentProc.programCounter], currentProc);
 			}
 			else{
-				//cout << "Current binary is " << decoded[currentProc.programCounter] << " and i = " << currentProc.programCounter << endl;
 				execute(decoded[currentProc.programCounter], currentProc);
 			}
 		}
 	}
+	currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 	testRam.currentIndex = 0;
 	cout << "Execute successful." << endl;
-	//currentProc.endExecuteTime = std::chrono::high_resolution_clock::now();
 }
