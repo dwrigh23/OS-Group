@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="disk.cpp" />
+    <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="LongTermScheduler.cpp" />
     <ClCompile Include="PCB.cpp" />
     <ClCompile Include="RAM.cpp" />
@@ -74,6 +75,7 @@
   <ItemGroup>
     <ClInclude Include="CPU.h" />
     <ClInclude Include="disk.h" />
+    <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="LongTermScheduler.h" />
     <ClInclude Include="PCB.h" />
     <ClInclude Include="RAM.h" />

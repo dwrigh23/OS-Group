@@ -138,7 +138,6 @@ void CPU::arithmeticFormat(string binary){
 		cout << "OPCODE: DIV, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
 		if (registers[src_reg2] == 0){
 			cout << "Cannot divide by 0" << endl;
-			return;
 		}
 		else{
 			registers[dest_reg] = registers[src_reg] / registers[src_reg2];
@@ -147,14 +146,12 @@ void CPU::arithmeticFormat(string binary){
 		break;
 	case 9:  //001001(2) = 09(16), Instruction: AND
 		cout << "OPCODE: AND, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
-		temp = src_reg & src_reg2;
-		registers[dest_reg] = temp;
+		registers[dest_reg] = src_reg & src_reg2;
 		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
 	case 10:  //001010(2) = 0A(16), Instruction: OR
 		cout << "OPCODE: OR, CONTENTS SRC_REG: " << src_reg << " SRC_REG2 " << src_reg2 << endl;
-		temp = src_reg | src_reg2;
-		registers[dest_reg] = temp;
+		registers[dest_reg] = src_reg | src_reg2;
 		cout << "RESULT: " << registers[dest_reg] << endl;
 		break;
 	case 16:  //010000(2) = 10(16), Instruction: SLT
@@ -205,12 +202,12 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 		break;
 	case 12:  //001100(2) = 0C(16), Instruction: ADDI
 		cout << "OPCODE: ADDI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
-		registers[d_reg] = registers[b_reg] + address;
+		registers[d_reg] += address;
 		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
 	case 13:  //001101(2) = 0D(16), Instruction: MULI
 		cout << "OPCODE: MULI, CONTENTS B_REG: " << b_reg << " ADDRESS " << address << endl;
-		registers[d_reg] += b_reg * (address);
+		registers[d_reg] += (address);
 		cout << "RESULT: " << registers[d_reg] << endl;
 		break;
 	case 14:  //001110(2) = 0E(16), Instruction: DIVI
@@ -252,25 +249,25 @@ void CPU::branchFormat(string binary, int &programCounter, PCB currentProc){
 		break;
 	case 23:  //010111(2) = 17(16), Instruction: BEZ
 		cout << "OPCODE: BEZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
-		if (registers[d_reg] == registers[1]){
+		if (registers[d_reg] == 0){
 			programCounter = address;
 		}
 		break;
 	case 24:  //011000(2) = 18(16), Instruction: BNZ
 		cout << "OPCODE: BNZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
-		if (registers[d_reg] != registers[1]){
+		if (registers[d_reg] != 0){
 			programCounter = address;
 		}
 		break;
 	case 25:  //011001(2) = 19(16), Instruction: BGZ
 		cout << "OPCODE: BGZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
-		if (registers[d_reg] > registers[1]){
+		if (registers[d_reg] > 0){
 			programCounter = address;
 		}
 		break;
 	case 26:  //011010(2) = 1A(16), Instruction: BLZ
 		cout << "OPCODE: BLZ, CONTENTS D_REG: " << registers[d_reg] << " ZERO REG " << registers[1] << endl;
-		if (registers[d_reg] < registers[1]){
+		if (registers[d_reg] < 0){
 			programCounter = address;
 		}
 		break;
@@ -298,7 +295,7 @@ void CPU::jumpFormat(string binary, int &programCounter, PCB currentProc){
 	int opcode = oc.to_ulong();
 	
 	//convert binary substrings to decimal integers for accessing registers by index properly
-	int address = stoi(binary.substr(8, 23), nullptr, 2);
+	int address = stoi(binary.substr(8, 24), nullptr, 2);
 
 	switch (opcode)
 	{
@@ -329,7 +326,7 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 	//convert binary substrings to decimal integers for accessing registers by index properly
 	int reg_1 = stoi(binary.substr(8, 4), nullptr, 2);
 	int reg_2 = stoi(binary.substr(12, 4), nullptr, 2);
-	int address = stoi(binary.substr(16, 15), nullptr, 2);
+	int address = stoi(binary.substr(16, 16), nullptr, 2);
 
 	switch (opcode){
 	
@@ -341,7 +338,7 @@ void CPU::ioFormat(string binary, PCB &currentProc){
 		break;
 	case 1: //WR, Writes the content of the accumulator into the output buffer
 		cout << "OPCODE: WR" << endl;
-		address = currentProc.startRam + address;
+		address = currentProc.codeSize + address;
 		writeReg = registers[accumulator];
 		iss >> std::dec >> writeReg;
 		testRam.memory[address] = writeReg;
